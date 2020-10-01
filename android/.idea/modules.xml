@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JobGo.iml" filepath="$PROJECT_DIR$/.idea/modules/JobGo.iml" group="JobGo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="JobGo/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870520829/react-native-background-upload.iml" filepath="$PROJECT_DIR$/.idea/modules/-870520829/react-native-background-upload.iml" group="JobGo/react-native-background-upload" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1016926033/react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/1016926033/react-native-community_async-storage.iml" group="JobGo/react-native-community_async-storage" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/274173467/react-native-community_cameraroll.iml" filepath="$PROJECT_DIR$/.idea/modules/274173467/react-native-community_cameraroll.iml" group="JobGo/react-native-community_cameraroll" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1974097218/react-native-community_datetimepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/1974097218/react-native-community_datetimepicker.iml" group="JobGo/react-native-community_datetimepicker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-34696995/react-native-community_google-signin.iml" filepath="$PROJECT_DIR$/.idea/modules/-34696995/react-native-community_google-signin.iml" group="JobGo/react-native-community_google-signin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1400615976/react-native-community_image-editor.iml" filepath="$PROJECT_DIR$/.idea/modules/-1400615976/react-native-community_image-editor.iml" group="JobGo/react-native-community_image-editor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1881665906/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/-1881665906/react-native-community_masked-view.iml" group="JobGo/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1348832050/react-native-community_netinfo.iml" filepath="$PROJECT_DIR$/.idea/modules/1348832050/react-native-community_netinfo.iml" group="JobGo/react-native-community_netinfo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1113007236/react-native-community_toolbar-android.iml" filepath="$PROJECT_DIR$/.idea/modules/1113007236/react-native-community_toolbar-android.iml" group="JobGo/react-native-community_toolbar-android" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/670457573/react-native-community_viewpager.iml" filepath="$PROJECT_DIR$/.idea/modules/670457573/react-native-community_viewpager.iml" group="JobGo/react-native-community_viewpager" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-332102776/react-native-device-info.iml" filepath="$PROJECT_DIR$/.idea/modules/-332102776/react-native-device-info.iml" group="JobGo/react-native-device-info" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/136731207/react-native-fast-image.iml" filepath="$PROJECT_DIR$/.idea/modules/136731207/react-native-fast-image.iml" group="JobGo/react-native-fast-image" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-555026175/react-native-fbsdk.iml" filepath="$PROJECT_DIR$/.idea/modules/-555026175/react-native-fbsdk.iml" group="JobGo/react-native-fbsdk" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1929292260/react-native-firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/1929292260/react-native-firebase.iml" group="JobGo/react-native-firebase" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-657401335/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-657401335/react-native-gesture-handler.iml" group="JobGo/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-134161615/react-native-gps-state.iml" filepath="$PROJECT_DIR$/.idea/modules/-134161615/react-native-gps-state.iml" group="JobGo/react-native-gps-state" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1050440059/react-native-i18n.iml" filepath="$PROJECT_DIR$/.idea/modules/1050440059/react-native-i18n.iml" group="JobGo/react-native-i18n" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1527315483/react-native-iap.iml" filepath="$PROJECT_DIR$/.idea/modules/1527315483/react-native-iap.iml" group="JobGo/react-native-iap" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1512901756/react-native-image-crop-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1512901756/react-native-image-crop-picker.iml" group="JobGo/react-native-image-crop-picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-230816355/react-native-image-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-230816355/react-native-image-picker.iml" group="JobGo/react-native-image-picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/237063631/react-native-image-resizer.iml" filepath="$PROJECT_DIR$/.idea/modules/237063631/react-native-image-resizer.iml" group="JobGo/react-native-image-resizer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/704502224/react-native-image-size.iml" filepath="$PROJECT_DIR$/.idea/modules/704502224/react-native-image-size.iml" group="JobGo/react-native-image-size" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-37450213/react-native-linear-gradient.iml" filepath="$PROJECT_DIR$/.idea/modules/-37450213/react-native-linear-gradient.iml" group="JobGo/react-native-linear-gradient" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1746133619/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/1746133619/react-native-reanimated.iml" group="JobGo/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/266629970/react-native-restart.iml" filepath="$PROJECT_DIR$/.idea/modules/266629970/react-native-restart.iml" group="JobGo/react-native-restart" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/248878130/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/248878130/react-native-safe-area-context.iml" group="JobGo/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/843131594/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/843131594/react-native-screens.iml" group="JobGo/react-native-screens" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1423468544/react-native-settings.iml" filepath="$PROJECT_DIR$/.idea/modules/-1423468544/react-native-settings.iml" group="JobGo/react-native-settings" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1810812446/react-native-share.iml" filepath="$PROJECT_DIR$/.idea/modules/-1810812446/react-native-share.iml" group="JobGo/react-native-share" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-620299627/react-native-splash-screen.iml" filepath="$PROJECT_DIR$/.idea/modules/-620299627/react-native-splash-screen.iml" group="JobGo/react-native-splash-screen" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1394451053/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/1394451053/react-native-vector-icons.iml" group="JobGo/react-native-vector-icons" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-92396293/react-native-version-number.iml" filepath="$PROJECT_DIR$/.idea/modules/-92396293/react-native-version-number.iml" group="JobGo/react-native-version-number" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/102074172/react-native-webview.iml" filepath="$PROJECT_DIR$/.idea/modules/102074172/react-native-webview.iml" group="JobGo/react-native-webview" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-505893786/react-native-youtube.iml" filepath="$PROJECT_DIR$/.idea/modules/-505893786/react-native-youtube.iml" group="JobGo/react-native-youtube" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-306618058/rn-fetch-blob.iml" filepath="$PROJECT_DIR$/.idea/modules/-306618058/rn-fetch-blob.iml" group="JobGo/rn-fetch-blob" />
+    </modules>
+  </component>
+</project>
