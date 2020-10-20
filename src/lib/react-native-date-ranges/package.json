@@ -1,0 +1,36 @@
+
+{
+  "name": "react-native-date-ranges",
+  "version": "2.5.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "dates",
+    "date ranges",
+    "single datepicker",
+    "range datepicker",
+    "react-native-dates",
+    "calendar",
+    "datepickers",
+    "rn-dates"
+  ],
+  "author": "louis",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pohsiu/react-native-date-ranges"
+  },
+  "dependencies": {
+    "react": ">=16.0.0-alpha.12",
+    "moment": "^2.22.1",
+    "moment-range": "2.2.0",
+    "prop-types": "^15.6.1"
+  },
+  "peerDependencies": {
+    "react-native": ">=0.41.2"
+  }
+}

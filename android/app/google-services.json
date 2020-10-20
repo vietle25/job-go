@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "238596347640",
+    "firebase_url": "https://workfast-app.firebaseio.com",
+    "project_id": "workfast-app",
+    "storage_bucket": "workfast-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238596347640:android:29521867656af513a94d0d",
+        "android_client_info": {
+          "package_name": "com.jobgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdzpcIXhFNcTFNFE592rZ_bxPSSNS4esU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238596347640:android:6a81cb9007f00bf8a94d0d",
+        "android_client_info": {
+          "package_name": "com.steve.workfast.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdzpcIXhFNcTFNFE592rZ_bxPSSNS4esU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238596347640:android:b79095299f059b12a94d0d",
+        "android_client_info": {
+          "package_name": "com.steve.workfast.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238596347640-skdaf62jt8clkth90tmcdaf7jm7qp2b9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.steve.workfast.user",
+            "certificate_hash": "0c23a60602d4ecb258585402d1a77ebf7c35367b"
+          }
+        },
+        {
+          "client_id": "238596347640-a28a1pmde9vplvubkp4m5ijiao7a6fuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.steve.workfast.user",
+            "certificate_hash": "4ec4044619892ff0d1eff137de85407ebe4af55b"
+          }
+        },
+        {
+          "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdzpcIXhFNcTFNFE592rZ_bxPSSNS4esU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238596347640-uli8d0ibccfab008j335eb502r3q798p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

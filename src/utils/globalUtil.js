@@ -1,0 +1,24 @@
+//Define all global value
+global.token = ""
+global.firebaseToken = ""
+global.dataCardMember = null
+global.badgeCount = 0
+global.openModalBanner = null
+global.dataAddress = null
+global.onExitApp = null
+global.positionX = 0
+global.onOpeningScan = null
+global.notifyGPS = true
+global.numberUnseen = 0
+global.userAdminId = null
+global.rescueInfo = null
+global.isShowMessageError = false
+global.bundleId = null
+global.appAdminType = null
+global.pageConversation = 0
+global.requestFriend = 0
+global.atMessageScreen = false
+global.atJoinGroupRequestScreen = false
+global.unseenConversation = 0
+global.logout = false
+global.registerSuccess = false
