@@ -53,7 +53,6 @@ export default class FlatListCustom extends Component {
                 {...this.props}
                 contentContainerStyle={[{
                     flexGrow: 1,
-                    // justifyContent: this.props.isShowEmpty ? "center" : "flex-start"
                 }, this.props.contentContainerStyle]}
                 ref={(ref) => {
                     if (this.props.onRef)
@@ -62,12 +61,9 @@ export default class FlatListCustom extends Component {
                 onLayout={this.onLayout.bind(this)}
                 data={this.getParentData(this.props)}
                 renderItem={({ item, index }) => {
-                    if (!Utils.isNull(item)) {
-                        return (this.renderItem(!Utils.isNull(item) ? item.data : null, index))
-                    }
-                    else { return null }
+                    return (this.renderItem(item.data, index))
                 }}
-                keyExtractor={(item, index) => !Utils.isNull(item) ? item.parentIndex.toString() : index.toString()}
+                keyExtractor={(item, index) => item.parentIndex.toString()}
                 ListFooterComponent={() => this.props.enableLoadMore
                     ? this.renderFooter()
                     : this.props.ListFooterComponent ? this.props.ListFooterComponent() : null}
@@ -76,29 +72,21 @@ export default class FlatListCustom extends Component {
                     this.onEndReachedCalledDuringMomentum = false;
                 }}
                 onEndReached={({ distanceFromEnd }) => {
-                    if (!this.props.isUsedOnEndReachedDuringMomentum) {
-                        if (this.props.enableLoadMore) {
-                            if (this.props.onLoadMore) {
-                                this.props.onLoadMore();
-                            }
+                    if (!this.onEndReachedCalledDuringMomentum && this.props.enableLoadMore) {
+                        if (this.props.onLoadMore != null) {
+                            // this.setState({
+                            //     isLoadMore: true
+                            // })
+                            this.props.onLoadMore();
                         }
-                    } else {
-                        if (!this.onEndReachedCalledDuringMomentum && this.props.enableLoadMore) {
-
-                            if (this.props.onLoadMore) {
-                                this.props.onLoadMore();
-                            }
-                            this.onEndReachedCalledDuringMomentum = true;
-                        }
+                        this.onEndReachedCalledDuringMomentum = true;
                     }
                 }}
                 refreshControl={this.props.enableRefresh ? this.props.refreshControl : null}
                 onEndReachedThreshold={0.5}
-                removeClippedSubviews={true}
-                initialNumToRender={1}
+                removeClippedSubviews={false}
+                initialNumToRender={5}
                 maxToRenderPerBatch={5}
-                updateCellsBatchingPeriod={20}
-                windowSize={10}
                 keyboardShouldPersistTaps='always'
             />
         )

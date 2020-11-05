@@ -17,7 +17,6 @@ import ic_love_white from 'images/ic_love_white.png';
 import { save } from '@react-native-community/cameraroll';
 import ScreenType from 'enum/screenType'
 
-const screen = Dimensions.get("window");
 const WIDTH_IMAGE = Constants.MAX_WIDTH * 0.17;
 const HEIGHT_IMAGE = WIDTH_IMAGE * (12 / 8);
 
@@ -55,7 +54,7 @@ export default class ItemJob extends PureComponent {
                 }}
                 activeOpacity={Constants.ACTIVE_OPACITY}
                 onPress={() => onPress(item)}>
-                <View style={[styles.container]}>
+                <View style={styles.container}>
                     {this.renderImage(item, expired)}
                     <View style={{ flex: 1 }}>
                         <Text numberOfLines={2} style={[commonStyles.text, {

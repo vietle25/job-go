@@ -25,7 +25,7 @@ export default class ImageLoader extends Component {
             loaded: false,
 
         }
-        this.path = require('../images/ic_default_user.png')
+        this.path = ic_default_user
         this.newWidth = 0;
         this.newHeight = 0;
 

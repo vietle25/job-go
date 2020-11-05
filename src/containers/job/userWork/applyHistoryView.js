@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, BackHandler,
-    Animated, UIManager, LayoutAnimation, Platform
+    Animated, UIManager, Platform
 } from "react-native";
 import BaseView from "containers/base/baseView";
 import { Container, Header, Content, Root, Title, Col, Spinner } from "native-base";

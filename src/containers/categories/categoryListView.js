@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, UIManager, LayoutAnimation, Platform} from "react-native";
+import {View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, Platform} from "react-native";
 import BaseView from "containers/base/baseView";
 import {Container, Header, Content, Root, Title, Col, Spinner} from "native-base";
 import FlatListCustom from "components/flatListCustom";
@@ -32,12 +32,6 @@ import ic_add from 'images/ic_add.png';
 import ic_sort_blue from 'images/ic_sort_blue.png';
 
 const screen = Dimensions.get('window');
-if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental && Platform.Version > 23
-) {
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 class CategoryListView extends BaseView {
     constructor(props) {
         super(props);
@@ -48,7 +42,6 @@ class CategoryListView extends BaseView {
             subjectId: null,
             stringSearch: null,
             enableLoadMore: false,
-            flatListScroll: true,
             subject: null,
             currentCategory: "Tech",
             currentSortType: sortType.DATE_MOST_RECENT.title
@@ -225,42 +218,6 @@ class CategoryListView extends BaseView {
         return (
             <Root style={{backgroundColor: Colors.COLOR_BACKGROUND, }}>
                 <FlatListCustom
-                    onScroll={Animated.event(
-                        [{
-                            nativeEvent: {contentOffset: {y: this.scrollY}}
-                        }],
-                        {
-                            listener: (event) => {
-                                const CustomLayoutLinear = {
-                                    duration: 200,
-                                    create: {
-                                        type: LayoutAnimation.Types.spring,
-                                        property: LayoutAnimation.Properties.scaleY,
-                                        springDamping: 0.9
-                                    },
-                                    delete: {
-                                        type: LayoutAnimation.Types.easeInEaseOut,
-                                        property: LayoutAnimation.Properties.opacity,
-                                    },
-                                    update: {
-                                        type: LayoutAnimation.Types.easeInEaseOut,
-                                        property: LayoutAnimation.Properties.opacity,
-                                    },
-                                }
-                                const currentOffset = event.nativeEvent.contentOffset.y
-                                const direction = (currentOffset > 0 && currentOffset > this.listViewOffset)
-                                    ? 'down'
-                                    : 'up'
-                                const isActionButtonVisible = direction === 'up'
-                                if (isActionButtonVisible !== this.state.flatListScroll) {
-                                    LayoutAnimation.configureNext(CustomLayoutLinear)
-                                    this.setState({flatListScroll: isActionButtonVisible})
-                                }
-                                this.listViewOffset = currentOffset
-                            }
-                        },
-                        {useNativeDriver: true}
-                    )}
                     onRef={(ref) => {this.flatListRef = ref}}
                     contentContainerStyle={{
                         // paddingBottom: Constants.PADDING_LARGE,

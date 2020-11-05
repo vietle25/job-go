@@ -784,16 +784,16 @@ class BaseView extends Component {
                         this.props.postUserDeviceInfo(filter)
                         if (global.registerSuccess) {
                             global.registerSuccess = false
-                            setTimeout(() => {
-                                this.props.pushNotification({
-                                    title: "Đăng ký tài khoản thành công",
-                                    content: "Đăng ký tài khoản thành công, bắt đầu tìm việc hoặc đăng tin tuyển dụng ngay nhé",
-                                    type: notificationType.COMMON_NOTIFICATION,
-                                    meta: null,
-                                    token: token,
-                                    userId: user.id
-                                })
-                            }, 3000)
+                            // setTimeout(() => {
+                            //     this.props.pushNotification({
+                            //         title: "Đăng ký tài khoản thành công",
+                            //         content: "Đăng ký tài khoản thành công, bắt đầu tìm việc hoặc đăng tin tuyển dụng ngay nhé",
+                            //         type: notificationType.COMMON_NOTIFICATION,
+                            //         meta: null,
+                            //         token: token,
+                            //         userId: user.id
+                            //     })
+                            // }, 3000)
                         }
                     }
                 }).catch((error) => {

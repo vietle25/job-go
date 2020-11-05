@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, UIManager, LayoutAnimation, Platform } from "react-native";
+import { View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, UIManager, Platform } from "react-native";
 import BaseView from "containers/base/baseView";
 import { Container, Header, Content, Root, Title, Col, Spinner } from "native-base";
 import FlatListCustom from "components/flatListCustom";
@@ -37,12 +37,12 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 const screen = Dimensions.get('window');
-if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental && Platform.Version > 23
-) {
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+// if (
+//     Platform.OS === 'android' &&
+//     UIManager.setLayoutAnimationEnabledExperimental && Platform.Version > 23
+// ) {
+//     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+// }
 const LIST_MENU = [
     {
         label: sortType.DATE_MOST_RECENT.title,

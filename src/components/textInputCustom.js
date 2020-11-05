@@ -22,6 +22,7 @@ import { Fonts } from 'values/fonts';
 import { TextInputMask } from 'react-native-masked-text';
 import Hr from './hr';
 import { AnimatedRegion } from 'react-native-maps';
+
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableWithoutFeedback);
 
 /**
@@ -57,7 +58,7 @@ export default class TextInputCustom extends Component {
         }
     }
 
-    render () {
+    render() {
         const { isMultiLines, isInputAction, isInputNormal, isInputMask } = this.props
         return (
             <View>
@@ -69,7 +70,7 @@ export default class TextInputCustom extends Component {
         )
     }
 
-    renderInputOneLine () {
+    renderInputOneLine() {
         const { title, titleStyles, refInput, inputNormalStyle, autoCapitalize, returnKeyType, placeholder, styleRight,
             onSubmitEditing, keyboardType, secureTextEntry, borderBottomWidth, styleInputGroup, onPressRight, styleIcon,
             onPressPlaceHolder, textBackground, placeholderTextColor,
@@ -140,6 +141,7 @@ export default class TextInputCustom extends Component {
                         numberOfLines={numberOfLines}
                     />
                     <Animated.Text
+                        collapsable={false}
                         onPress={onPressPlaceHolder}
                         onLongPress={onPressPlaceHolder}
                         longPressDelayTimeout={1000}
@@ -160,7 +162,7 @@ export default class TextInputCustom extends Component {
         );
     }
 
-    renderInputAction () {
+    renderInputAction() {
         const { refInput, onPress, touchSpecialStyle, inputSpecialStyle, imageSpecialStyle, placeholder,
             myBackgroundColor, disabled, autoCapitalize, opacity, imgRight, title, onPressPlaceHolder,
             warnTitle, isValidate } = this.props;
@@ -230,6 +232,7 @@ export default class TextInputCustom extends Component {
                         }}
                     />
                     <Animated.Text
+                        collapsable={false}
                         onPress={onPressPlaceHolder}
                         onLongPress={onPressPlaceHolder}
                         longPressDelayTimeout={1000}
@@ -247,7 +250,7 @@ export default class TextInputCustom extends Component {
         )
     }
 
-    renderInputMask () {
+    renderInputMask() {
         const { refInput, inputNormalStyle, autoCapitalize, returnKeyType, placeholder, onSubmitEditing,
             keyboardType, secureTextEntry, onSelectionChange, blurOnSubmit, styleInputGroup, visibleHr, onBlur,
             onFocus, numberOfLines, title, warnTitle, isValidate, typeFormat, options, onPressRight, onPressPlaceHolder,
@@ -326,6 +329,7 @@ export default class TextInputCustom extends Component {
                         numberOfLines={numberOfLines}
                     />
                     <Animated.Text
+                        collapsable={false}
                         onPress={onPressPlaceHolder}
                         onLongPress={onPressPlaceHolder}
                         longPressDelayTimeout={1000}
@@ -347,7 +351,7 @@ export default class TextInputCustom extends Component {
         )
     }
 
-    renderInputMultiLines () {
+    renderInputMultiLines() {
         const { inputNormalStyle, refInput, onBlur, onFocus, styleInputGroup, hrEnable = true, placeholder, visibleHr, onPressPlaceHolder } = this.props;
         const { isFocus } = this.state;
         let top = this.animate.interpolate({
@@ -402,6 +406,7 @@ export default class TextInputCustom extends Component {
                         }}
                     />
                     <Animated.Text
+                        collapsable={false}
                         onPress={onPressPlaceHolder}
                         onLongPress={onPressPlaceHolder}
                         longPressDelayTimeout={1000}
@@ -420,7 +425,7 @@ export default class TextInputCustom extends Component {
         )
     }
 
-    renderTitle () {
+    renderTitle() {
         const { title, warnTitle, isValidate, titleStyles } = this.props;
         return (
             !Utils.isNull(title) || !Utils.isNull(warnTitle)
@@ -446,7 +451,7 @@ export default class TextInputCustom extends Component {
         )
     }
 
-    changeText (text) {
+    changeText(text) {
         if (this.props.onChangeText)
             this.props.onChangeText(text)
         else
@@ -456,7 +461,7 @@ export default class TextInputCustom extends Component {
 
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         this.setState({
             value: nextProps.value
         })

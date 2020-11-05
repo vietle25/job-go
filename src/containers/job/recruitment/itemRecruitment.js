@@ -95,7 +95,9 @@ export default class ItemRecruitment extends PureComponent {
                 </TouchableOpacity>
                 {/* { */}
                 {/* this.state.visibleContact ? */}
-                <Animated.View style={[{
+                <Animated.View 
+                collapsable={false}
+                style={[{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     // position: 'absolute'

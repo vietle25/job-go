@@ -461,6 +461,7 @@ class DatePicker extends Component {
                   style={{flex: 1}}
                 >
                   <Animated.View
+                  collapsable={false}
                     style={[Style.datePickerCon, {height: this.state.animatedHeight}, customStyles.datePickerCon]}
                   >
                     <View pointerEvents={this.state.allowPointerEvents ? 'auto' : 'none'}>

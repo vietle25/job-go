@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
     View, Text, TouchableOpacity, Image, RefreshControl,
     TextInput, Keyboard, Alert, Dimensions,
-    Animated, UIManager, LayoutAnimation, Platform,
+    Animated, UIManager, Platform,
     Linking
 } from "react-native";
 import BaseView from "containers/base/baseView";
@@ -46,12 +46,12 @@ import areaType from "enum/areaType";
 import ItemRecruitment from "./itemRecruitment";
 
 const screen = Dimensions.get('window');
-if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental && Platform.Version > 23
-) {
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+// if (
+//     Platform.OS === 'android' &&
+//     UIManager.setLayoutAnimationEnabledExperimental && Platform.Version > 23
+// ) {
+//     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+// }
 const LIST_MENU = [
     {
         label: sortType.DATE_MOST_RECENT.title,

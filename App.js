@@ -45,7 +45,7 @@ export default class App extends React.Component {
         return (
             <Provider store={store}>
                 <Root>
-                    <MenuProvider customStyles={menuProviderStyles}>
+                    <MenuProvider>
                         <AppNavigator />
                     </MenuProvider>
                     {/* <StatusBar
@@ -68,6 +68,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 });
-
-const menuProviderStyles = {
-};

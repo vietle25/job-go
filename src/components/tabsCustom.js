@@ -38,6 +38,7 @@ export default class TabsCustom extends Component {
                 initialPage={initialPage}
                 renderTabBar={(props) =>
                     <Animated.View
+                    collapsable={false}
                         style={{ transform: [{ translateY: tabY }], zIndex: 1, width: "100%", backgroundColor: "white" }}>
                         <ScrollableTab
                             {...props}
@@ -47,6 +48,7 @@ export default class TabsCustom extends Component {
                                     onLayout={onLayout}
                                     activeOpacity={Constants.ACTIVE_OPACITY}>
                                     <Animated.View
+                                    collapsable={false}
                                         style={{
                                             flex: 1,
                                             width: "100%"

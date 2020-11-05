@@ -254,7 +254,9 @@ class JobDetailView extends BaseView {
         return (
             <Container>
                 <Root>
-                    <Animated.View style={[{
+                    <Animated.View 
+                    collapsable={false}
+                    style={[{
                         ...commonStyles.shadowOffset,
                         backgroundColor: 'white',
                         position: 'absolute',
@@ -264,8 +266,8 @@ class JobDetailView extends BaseView {
                         // zIndex: 20,
                         height: headerHeight
                     }]}>
-                        <Animated.Text numberOfLines={1} style={{ paddingHorizontal: Constants.MARGIN_X_LARGE * 3, textAlign: 'center', fontSize: 18, color: 'black', marginTop: 16, opacity: headerTitleOpacity }}>{headerTitle}</Animated.Text>
-                        <Animated.View style={{ position: "absolute", bottom: 0, opacity: heroTitleOpacity }}>
+                        <Animated.Text collapsable={false} numberOfLines={1} style={{ paddingHorizontal: Constants.MARGIN_X_LARGE * 3, textAlign: 'center', fontSize: 18, color: 'black', marginTop: 16, opacity: headerTitleOpacity }}>{headerTitle}</Animated.Text>
+                        <Animated.View collapsable={false} style={{ position: "absolute", bottom: 0, opacity: heroTitleOpacity }}>
                             {this.jobResource.length > 0 ?
                                 <SliderBanner
                                     navigation={this.props.navigation} data={this.jobResource}
