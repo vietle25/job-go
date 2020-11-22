@@ -20,7 +20,7 @@ import HeaderGradient from "containers/common/headerGradient";
 import StringUtil from 'utils/stringUtil';
 import StorageUtil from 'utils/storageUtil';
 import { ErrorCode } from "config/errorCode";
-import database from '@react-native-firebase/database';
+import firebase from 'react-native-firebase';
 
 const HEADER_HEIGHT = Platform.OS === "ios" ? 64 : 56;
 const deviceWidth = Dimensions.get("window").width;
@@ -63,7 +63,7 @@ class NotificationHomeView extends BaseView {
         StorageUtil.retrieveItem(StorageUtil.USER_PROFILE).then(user => {
             if (!Utils.isNull(user)) {
                 try {
-                    database().ref(`members`).on('value', (memberSnap) => {
+                    firebase.database().ref(`members`).on('value', (memberSnap) => {
                         let unseen = 0
                         if (!Utils.isNull(memberSnap.val())) {
                             let conversationIds = []

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import {
     View, Text, TouchableOpacity, Image, RefreshControl,
-    TextInput, Keyboard, Alert, Dimensions,
-    Animated, UIManager, Platform,
+    TextInput, Keyboard, Alert, Dimensions, Platform,
     Linking
 } from "react-native";
 import BaseView from "containers/base/baseView";

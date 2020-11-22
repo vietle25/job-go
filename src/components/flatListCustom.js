@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
     ImageBackground, View, StatusBar, TextInput,
     ScrollView, TouchableOpacity, Modal, Image, Dimensions, FlatList, ActivityIndicator,
-    Animated
 } from "react-native";
 import {
     Form, Textarea, Container, Header, Title, Left, Icon, Right,
@@ -16,13 +15,9 @@ import { Colors } from "values/colors";
 import { Constants } from "values/constants";
 import { Fonts } from "values/fonts";
 import Utils from "utils/utils";
+// import img_error_404 from 'images/img_error_404.png';
 
-const window = Dimensions.get("window");
 export default class FlatListCustom extends Component {
-
-    static defaultProps = {
-        isUsedOnEndReachedDuringMomentum: true
-    }
 
     constructor(props) {
         super(props)
@@ -30,6 +25,7 @@ export default class FlatListCustom extends Component {
         let data = this.getParentData(props)
         this.state = {
             data: data,
+            isLoadMore: false,
             isRefreshing: false,
             height: -1,
         };
@@ -40,7 +36,7 @@ export default class FlatListCustom extends Component {
         this.onEndReachedCalledDuringMomentum = true;
     }
 
-    onLayout (event) {
+    onLayout(event) {
 
     }
 
@@ -51,22 +47,20 @@ export default class FlatListCustom extends Component {
         return (
             <FlatList
                 {...this.props}
-                contentContainerStyle={[{
-                    flexGrow: 1,
-                }, this.props.contentContainerStyle]}
                 ref={(ref) => {
                     if (this.props.onRef)
                         this.props.onRef(ref)
                 }}
+                contentContainerStyle={[{
+                    flexGrow: 1,
+                }, this.props.contentContainerStyle]}
                 onLayout={this.onLayout.bind(this)}
                 data={this.getParentData(this.props)}
                 renderItem={({ item, index }) => {
                     return (this.renderItem(item.data, index))
                 }}
                 keyExtractor={(item, index) => item.parentIndex.toString()}
-                ListFooterComponent={() => this.props.enableLoadMore
-                    ? this.renderFooter()
-                    : this.props.ListFooterComponent ? this.props.ListFooterComponent() : null}
+                ListFooterComponent={() => this.props.ListFooterComponent ? this.props.ListFooterComponent() : this.props.enableLoadMore ? this.renderFooter() : null}
                 ListEmptyComponent={() => this.props.isShowEmpty ? this.renderEmptyComponent(this.props.styleEmpty, this.props.styleTextEmpty) : null}
                 onMomentumScrollBegin={() => {
                     this.onEndReachedCalledDuringMomentum = false;
@@ -93,12 +87,12 @@ export default class FlatListCustom extends Component {
     }
 
     /**
-     * Render empty component
+     * Empty component
      */
-    renderEmptyComponent = (style, styleText) => {
+    renderEmptyComponent = (style) => {
         return (
             <View style={[commonStyles.viewCenter, { height: "100%" }, style]}>
-                <Text style={[commonStyles.text, { fontSize: Fonts.FONT_SIZE_MEDIUM }, styleText]}>
+                <Text style={[commonStyles.text, { fontSize: Fonts.FONT_SIZE_MEDIUM }]}>
                     {this.props.textForEmpty}
                 </Text>
             </View>
@@ -116,7 +110,7 @@ export default class FlatListCustom extends Component {
         </View>)
     }
 
-    get itemData () {
+    get itemData() {
         const { itemPerRow, itemPerCol } = this.props
         let itemData = 1
         if (itemPerRow || itemPerRow) {
@@ -130,7 +124,7 @@ export default class FlatListCustom extends Component {
         return itemData
     }
 
-    getParentData (props) {
+    getParentData(props) {
         if (!props.data)
             throw new Error('No data found, please try again')
         let data = []
@@ -157,7 +151,7 @@ export default class FlatListCustom extends Component {
         return data
     }
 
-    onLayoutChild (event) {
+    onLayoutChild(event) {
         const childHeight = event.nativeEvent.layout.height
         const childWidth = event.nativeEvent.layout.width
         if (childHeight > this.maxHeight)
@@ -166,7 +160,7 @@ export default class FlatListCustom extends Component {
             this.maxWidth = childWidth
     }
 
-    onLoadDone () {
+    onLoadDone() {
         if (this.isLoadFirstTime) {
             this.setState({
                 data: this.state.data
@@ -175,7 +169,7 @@ export default class FlatListCustom extends Component {
         }
     }
 
-    renderItem (parentData, parentIndex) {
+    renderItem(parentData, parentIndex) {
         const itemData = this.itemData
         let directionStyle = this.horizontal ? styles.vertical : styles.horizontal
         let flex = 1 / itemData
@@ -188,7 +182,7 @@ export default class FlatListCustom extends Component {
             >{this.props.renderItem(item, indexInData, parentIndex, index)}</View>)
         })
         return (
-            <View style={[styles.vertical]}>
+            <View style={styles.vertical}>
                 <View style={directionStyle} key={parentIndex}>
                     {viewPerRow}
                 </View>
@@ -197,7 +191,7 @@ export default class FlatListCustom extends Component {
         );
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (this.props.data !== nextProps.data) {
             this.maxHeight = -1
             this.maxWidth = -1

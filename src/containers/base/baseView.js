@@ -18,9 +18,8 @@ import { Colors } from "values/colors";
 import { ErrorCode } from "config/errorCode";
 import { localizes } from "locales/i18n";
 import StorageUtil from "utils/storageUtil";
-import auth from '@react-native-firebase/auth';
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
+import firebase, { Notification, NotificationOpen } from 'react-native-firebase';
+import formalType from "enum/formalType";
 import DateUtil from "utils/dateUtil";
 import Utils from 'utils/utils'
 import Toast from 'react-native-root-toast';
@@ -40,7 +39,6 @@ import staffType from "enum/staffType";
 import { configConstants } from "values/configConstants";
 import LinearGradient from "react-native-linear-gradient";
 import notificationType from "enum/notificationType";
-import roleType from "enum/roleType";
 import screenType from "enum/screenType";
 
 const screen = Dimensions.get("window");
@@ -217,7 +215,7 @@ class BaseView extends Component {
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.onChangedOrientation)
-        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectionChange)
+        // NetInfo.removeEventListener('connectionChange', this.handleConnectionChange)
         if (this.messageListener != undefined) {
             this.messageListener();
         }
@@ -414,6 +412,7 @@ class BaseView extends Component {
      */
     countNewNotification = () => {
         StorageUtil.retrieveItem(StorageUtil.USER_PROFILE).then((user) => {
+            console.log("countNewNotification countNewNotification countNewNotification : ", user);
             if (this.props.countNewNotification && !Utils.isNull(user) && user.status == statusType.ACTIVE) {
                 this.props.countNewNotification()
             }
@@ -439,7 +438,9 @@ class BaseView extends Component {
         await StorageUtil.storeItem(StorageUtil.LIST_CHAT, null)
         global.token = ""
         global.firebaseToken = ""
+        firebase.notifications().setBadge(0);
         global.badgeCount = 0
+        firebase.auth().signOut();
         this.signOutFB();
         this.signOutGG();
     }
@@ -447,19 +448,23 @@ class BaseView extends Component {
     /**
      * Authentication firebase
      */
-    signInWithCustomToken = async (userId) => {
-        let firebaseToken = await StorageUtil.retrieveItem(StorageUtil.FIREBASE_TOKEN);
-        console.log("FIREBASE TOKEN: ", firebaseToken)
-        if (!Utils.isNull(firebaseToken) & !Utils.isNull(userId)) {
-            if (Platform.OS === "android") {
-                auth().signInWithCustomToken(firebaseToken).catch(function (error) {
-                    console.warn("Error auth: " + error.code + " - " + error.message);
-                });
-            } else {
-                var view = NativeModules.AppDelegate
-                view.loginAuthenFirebase(firebaseToken)
+    signInWithCustomToken(userId) {
+        StorageUtil.retrieveItem(StorageUtil.FIREBASE_TOKEN).then((firebaseToken) => {
+            //this callback is executed when your Promise is resolved
+            console.log("FIREBASE TOKEN: ", firebaseToken)
+            if (!Utils.isNull(firebaseToken) & !Utils.isNull(userId)) {
+                if (Platform.OS === "android") {
+                    firebase.auth().signInWithCustomToken(firebaseToken).catch(function (error) {
+                        console.warn("Error auth: " + error.code + " - " + error.message);
+                    });
+                } else {
+                    var view = NativeModules.AppDelegate
+                    view.loginAuthenFirebase(firebaseToken)
+                }
             }
-        }
+        }).catch((error) => {
+            this.saveException(error, "signInWithCustomToken")
+        });
     }
 
     /**
@@ -469,13 +474,13 @@ class BaseView extends Component {
      * @param {*} avatarPath 
      */
     putUserInfoToFirebase(userId, userName, avatarPath) {
-        database().ref(`/users`)
-        .child(userId)
-        .set({
-            name: userName,
-            avatar: avatarPath,
-            isOnline: true
-        });
+        firebase.database().ref(`/users`)
+            .child(userId)
+            .set({
+                name: userName,
+                avatar: avatarPath,
+                isOnline: true
+            });
     }
 
     /**
@@ -488,7 +493,7 @@ class BaseView extends Component {
                 this.showMessage(action == null ? localizes("error_in_process") : action + "  " + localizes("error_in_process"))
                 break
             case ErrorCode.NO_CONNECTION:
-                NetInfo.isConnected.fetch().done(
+                NetInfo.fetch().done(
                     (isConnected) => {
                         if (isConnected) {
                             this.showMessage(localizes("error_connect_to_server"))
@@ -701,7 +706,6 @@ class BaseView extends Component {
         this.checkPermission();
         this.getSourceUrlPath();
         this.getUserToken()
-        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     }
 
 
@@ -719,7 +723,7 @@ class BaseView extends Component {
      * check permission
      */
     async checkPermission() {
-        const enabled = await messing().hasPermission();
+        const enabled = await firebase.messaging().hasPermission();
         if (enabled) {
             this.getToken();
         } else {
@@ -732,9 +736,11 @@ class BaseView extends Component {
      */
     async requestPermission() {
         try {
-            await messing().requestPermission();
+            await firebase.messaging().requestPermission();
+            // User has authorised
             this.getToken();
         } catch (error) {
+            // User has rejected permissions
         }
     }
 
@@ -743,23 +749,29 @@ class BaseView extends Component {
      */
     async getToken() {
         let fcmToken = await StorageUtil.retrieveItem(StorageUtil.FCM_TOKEN);
-        console.log("GET TOKEN IN BASE VIEW: ", fcmToken);
+        console.log("GET TOKEN IN BASE VIEW 1: ", fcmToken);
         if (!Utils.isNull(fcmToken)) {
-            let fcmTokenNew = await messing().getToken();
+
+            let fcmTokenNew = await firebase.messaging().getToken();
+            console.log("GET TOKEN IN BASE VIEW 11111: ", fcmTokenNew);
             if (!Utils.isNull(fcmTokenNew) && fcmToken !== fcmTokenNew) {
+                console.log("GET TOKEN IN BASE VIEW 11111222222: ", fcmTokenNew);
                 await StorageUtil.storeItem(StorageUtil.FCM_TOKEN, fcmTokenNew);
                 this.refreshToken();
             } else if (!global.isSendTokenDevice) {
                 this.refreshToken();
             }
         } else {
-            fcmToken = await messing().getToken();
+            fcmToken = await firebase.messaging().getToken();
+            console.log("GET TOKEN IN BASE VIEW 2: ", fcmToken);
             if (fcmToken) {
                 StorageUtil.storeItem(StorageUtil.FCM_TOKEN, fcmToken);
                 this.refreshToken();
             }
         }
-        messing().onTokenRefresh((token) => {
+        // Get token when referesh
+        firebase.messaging().onTokenRefresh((token) => {
+            console.log("GET TOKEN IN BASE VIEW 3: ", token);
             StorageUtil.storeItem(StorageUtil.FCM_TOKEN, token);
             this.refreshToken()
         });
@@ -784,16 +796,16 @@ class BaseView extends Component {
                         this.props.postUserDeviceInfo(filter)
                         if (global.registerSuccess) {
                             global.registerSuccess = false
-                            // setTimeout(() => {
-                            //     this.props.pushNotification({
-                            //         title: "Đăng ký tài khoản thành công",
-                            //         content: "Đăng ký tài khoản thành công, bắt đầu tìm việc hoặc đăng tin tuyển dụng ngay nhé",
-                            //         type: notificationType.COMMON_NOTIFICATION,
-                            //         meta: null,
-                            //         token: token,
-                            //         userId: user.id
-                            //     })
-                            // }, 3000)
+                            setTimeout(() => {
+                                this.props.pushNotification({
+                                    title: "Đăng ký tài khoản thành công",
+                                    content: "Đăng ký tài khoản thành công, bắt đầu tìm việc hoặc đăng tin tuyển dụng ngay nhé",
+                                    type: notificationType.COMMON_NOTIFICATION,
+                                    meta: null,
+                                    token: token,
+                                    userId: user.id
+                                })
+                            }, 3000)
                         }
                     }
                 }).catch((error) => {
@@ -822,15 +834,6 @@ class BaseView extends Component {
                 this.filterNotificationIsSeen = {
                     notificationIds: []
                 };
-                if (this.props.navigation) {
-                    let type = parseInt(StringUtil.getNumberInString(data.type));
-                    if (!Utils.isNull(data.data)) {
-                        var obj = JSON.parse(Utils.cloneObject(data.data));
-                        if (obj.notificationId != null) {
-                            var notificationId = obj.notificationId;
-                        }
-                    }
-                }
             }
         }).catch((error) => {
             //this callback is executed when your Promise is rejected
@@ -842,10 +845,26 @@ class BaseView extends Component {
     /**
      * Create notification listener
      */
-    createNotificationListeners = async () => {
-        this.messageListener = messing().subscribeToTopic("all");
-        this.messageListener = messing().onMessage((message) => {
-            console.log('Notification message ' + JSON.stringify(message));
+    async createNotificationListeners() {
+        this.messageListener = firebase.messaging().subscribeToTopic("all");
+        /*
+         * Triggered for data only payload in foreground
+         * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            // Process your message as required
+            console.log('message ' + JSON.stringify(message));
+        });
+        /*
+         * Triggered when a particular notification has been received in foreground
+         * */
+        this.notificationListener = firebase.notifications().onNotification(async (notification) => {
+            // if (global.atMessageScreen) {
+
+            // } else {
+            console.log("Notification base foreground", notification);
+            let avatarPath = !Utils.isNull(notification._data.senderPath) ? notification._data.senderPath.indexOf('http') != -1 ?
+                notification._data.senderPath :
+                this.resourceUrlPathResize.textValue + "=" + notification._data.senderPath + "&op=resize&w=48" : null;
             const localNotification = new firebase.notifications.Notification({
                 sound: 'default',
                 show_in_foreground: true
@@ -855,8 +874,10 @@ class BaseView extends Component {
                 .setSubtitle(notification._subtitle)
                 .setBody(notification._body)
                 .setData(notification._data)
+                // .android.setSmallIcon('@drawable/ic_launcher')
                 .android.setPriority(firebase.notifications.Android.Priority.High)
                 .android.setBigText(notification._body)
+            // .android.setLargeIcon(avatarPath);
             if (Platform.OS === 'android' && localNotification.android.channelId == null) {
                 const channel = new firebase.notifications.Android.Channel(
                     CHANNEL_ID,
@@ -867,33 +888,60 @@ class BaseView extends Component {
                 firebase.notifications().android.createChannel(channel);
                 localNotification.android.setChannelId(channel.channelId);
             }
-            // try {
-            //     await firebase.notifications().displayNotification(localNotification);
-            //     notification.android.setAutoCancel(true)
-            //     if (!global.logout) {
-            //         this.countNewNotification()
-            //     }
-            // } catch (e) {
-            //     console.log('catch', e)
+            try {
+                await firebase.notifications().displayNotification(localNotification);
+                notification.android.setAutoCancel(true)
+                if (!global.logout) {
+                    this.countNewNotification() // count nti
+                }
+            } catch (e) {
+                console.log('catch', e)
+            }
             // }
         });
-        messing().onNotificationOpenedApp(remoteMessage => {
-            console.log('Notification caused app to open from background state:', remoteMessage.notification);
-            // messing().removeAllDeliveredNotifications()
-            if (!global.logout) {
-                this.countNewNotification()
-            }
-            // this.goToScreen(notificationOpen.notification._data);
-        });
-        messing()
-            .getInitialNotification()
-            .then(remoteMessage => {
-                if (remoteMessage) {
-                    console.log('Notification caused app to open from quit state:', remoteMessage.notification,);
-                    // setInitialRoute(remoteMessage.data.type); 
-                }
-            });
 
+        /*
+         * Process your notification as required
+         * */
+        this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+            // console.log("=== notification DISPLAYED");
+            // console.log(notification);
+
+
+
+            // Process your notification as required
+            // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+        });
+
+        /*
+         * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+         * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            firebase.notifications().removeAllDeliveredNotifications()
+            if (!global.logout) {
+                this.countNewNotification() // count nti
+            }
+            this.goToScreen(notificationOpen.notification._data);
+        });
+
+        // 2.
+        /*
+         * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+         * */
+        const notificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            // console.log("Notification base closed", notificationOpen);
+            // StorageUtil.retrieveItem(StorageUtil.NOTIFICATION_ID).then((id) => {
+            //     if (id != notificationOpen.notification._notificationId) {
+            //         setTimeout(() => {
+            //             this.goToScreen(notificationOpen.notification._data);
+            //         }, 1000)
+            //     }
+            // }).catch((error) => {
+            //     console.log(error)
+            // })
+            // StorageUtil.storeItem(StorageUtil.NOTIFICATION_ID, notificationOpen.notification._notificationId);
+        }
     }
 
     /**

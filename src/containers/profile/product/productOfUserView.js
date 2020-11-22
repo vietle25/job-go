@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import {
     Container, Form, Content, Input, Button, Right, Radio,
-    center, ListItem, Left, Header, Item, Picker, Body, Root
+    center, ListItem, Left, Header, Root
 } from 'native-base';
 import * as actions from 'actions/userActions';
 import * as locationActions from 'actions/locationActions';

@@ -47,7 +47,7 @@ import ModalVideoViewer from 'containers/common/modalVideoViewer';
 import CameraRoll from "@react-native-community/cameraroll";
 import RNFetchBlob from 'rn-fetch-blob';
 import DateUtil from 'utils/dateUtil';
-import storage from '@react-native-firebase/storage';
+import firebase from 'react-native-firebase';
 import { TextInputMask } from "react-native-masked-text";
 import { CheckBox } from "react-native-elements";
 import { CalendarScreen } from 'components/calendarScreen';
@@ -62,9 +62,6 @@ import ic_back_blue from 'images/ic_back_blue.png'
 import ic_phone from 'images/ic_phone.png';
 import ic_email from 'images/ic_email.png';
 import ic_social from 'images/ic_social.png';
-
-var RNFS = require('react-native-fs');
-
 
 const window = Dimensions.get("window");
 const AVATAR_SIZE = 36;
@@ -424,23 +421,47 @@ class AddJobView extends BaseView {
     /**
      * Using validate some string is empty, contain special character or over limit
      */
-    validateString = (string, limit, errorTitle, validSpecial) => {
+    validateString = (string, limit, errorTitle, validSpecial, requirement = false) => {
         if (Utils.isNull(string.trim())) {
-            this.setState({
-                error: errorTitle + " là bắt buộc"
-            })
+            if (requirement) {
+                this.setState({
+                    errorRequirement: errorTitle + " là bắt buộc"
+                })
+            } else {
+                this.setState({
+                    error: errorTitle + " là bắt buộc"
+                })
+            }
         } else if (validSpecial && StringUtil.validSpecialCharacterForTitle(string)) {
-            this.setState({
-                error: errorTitle + " không được chứa kí tự đặc biệt"
-            })
+            if (requirement) {
+                this.setState({
+                    errorRequirement: errorTitle + " không được chứa kí tự đặc biệt"
+                })
+            } else {
+                this.setState({
+                    error: errorTitle + " không được chứa kí tự đặc biệt"
+                })
+            }
         } else if (validSpecial && StringUtil.validEmojiIcon(string)) {
-            this.setState({
-                error: errorTitle + " không được chứa kí tự đặc biệt"
-            })
+            if (requirement) {
+                this.setState({
+                    errorRequirement: errorTitle + " không được chứa kí tự đặc biệt"
+                })
+            } else {
+                this.setState({
+                    error: errorTitle + " không được chứa kí tự đặc biệt"
+                })
+            }
         } else if (limit != null && string.length > limit) {
-            this.setState({
-                error: errorTitle + " không được dài quá " + limit + " kí tự"
-            })
+            if (requirement) {
+                this.setState({
+                    errorRequirement: errorTitle + " không được dài quá " + limit + " kí tự"
+                })
+            } else {
+                this.setState({
+                    error: errorTitle + " không được dài quá " + limit + " kí tự"
+                })
+            }
         } else {
             // this.se
         }
@@ -511,27 +532,33 @@ class AddJobView extends BaseView {
 
     renderButton = () => {
         let { indexButton, error, errorPosition, errorSalary, resources, errorRequirement } = this.state;
-        let opacity = indexButton == 1 ?
+        if (this.state.indexButton == 3) {
+            console.log("errorRequirement: ", errorRequirement)
+            console.log("error: ", error)
+        }
+        let opacity = this.state.indexButton == 1 ?
             resources.length > 0 ? 1 : 0.5 :
-            indexButton == 2 ?
+            this.state.indexButton == 2 ?
                 errorPosition == null && errorSalary == null ?
-                    1 : 0.5 : indexButton == 3 ?
-                    errorRequirement == null && error == null ?
-                        1 : 0.5 : indexButton == 6 || indexButton == 5 ?
+                    1 : 0.5 : this.state.indexButton == 3 ?
+                    (errorRequirement == null && error == null) ?
+                        1 : 0.5 : this.state.indexButton == 6 || this.state.indexButton == 5 ?
                         1 : error == null ? 1 : 0.5;
+        console.log("opacity : ", opacity)
         return (
             <View style={styles.buttonContainer}>
-                {indexButton != 0 && <TouchableOpacity
+                {this.state.indexButton != 0 && <TouchableOpacity
                     activeOpacity={Constants.ACTIVE_OPACITY}
                     onPress={() => {
                         this.setState({
-                            indexButton: indexButton - 1,
+                            indexButton: this.state.indexButton - 1,
+                            error: null,
                         })
                     }}
                     style={styles.buttonPrev}>
                     <Text style={{ color: Colors.COLOR_WHITE }} >Trước đó</Text>
                 </TouchableOpacity>}
-                {indexButton == 6 ?
+                {this.state.indexButton == 6 ?
                     <TouchableOpacity
                         disabled={this.listCategory.length == 0}
                         activeOpacity={Constants.ACTIVE_OPACITY}
@@ -550,7 +577,7 @@ class AddJobView extends BaseView {
                         activeOpacity={Constants.ACTIVE_OPACITY}
                         onPress={() => {
                             this.setState({
-                                indexButton: indexButton + 1,
+                                indexButton: this.state.indexButton + 1,
                                 error: ''
                             })
                         }}
@@ -584,7 +611,7 @@ class AddJobView extends BaseView {
             )
         } else {
             return (
-                <View style={{ marginTop: 50, marginLeft: -8 }}>
+                <View style={{ marginTop: 50, marginLeft: -16 }}>
                     <SlideResource
                         data={resources}
                         indexRes={0}
@@ -640,49 +667,6 @@ class AddJobView extends BaseView {
                 </View>
             </View>
             : null
-    }
-
-    /**
-     * Render input des
-     */
-    renderInputDes = () => {
-        const { description, error } = this.state;
-        return (
-            <View style={{ marginTop: 100 }}>
-                <Text style={styles.titleInput}>Mô tả</Text>
-                <TextInputCustom
-                    refInput={input => {
-                        this.description = input;
-                    }}
-                    value={description}
-                    onChangeText={description => {
-                        this.setState({ description, error: null })
-                        this.validateString(description, null, "Mô tả công việc", false)
-                    }}
-                    inputNormalStyle={{ marginHorizontal: Constants.MARGIN_LARGE - 2 }}
-                    returnKeyType={"next"}
-                    multiline={true}
-                    isMultiLines={true}
-                    placeholder={"Mô tả công việc"}
-                    keyboardType="default"
-                    editable={true}
-                    visibleHr={true}
-                    onSubmitEditing={() => {
-                        setTimeout(() => {
-                            this.requirement.focus()
-                        })
-                    }}
-                    textBackground={Colors.COLOR_WHITE}
-                    onPressPlaceHolder={() => { this.description.focus() }}
-                />
-                <Text style={[commonStyles.text700, {
-                    marginLeft: Constants.MARGIN_LARGE,
-                    marginTop: Constants.MARGIN_X_LARGE,
-                    fontSize: Fonts.FONT_SIZE_MEDIUM,
-                    color: Colors.COLOR_ERA
-                }]}>{error ? error : null}</Text>
-            </View>
-        )
     }
 
     /**
@@ -908,6 +892,50 @@ class AddJobView extends BaseView {
         );
     }
 
+
+    /**
+     * Render input des
+     */
+    renderInputDes = () => {
+        const { description, error } = this.state;
+        return (
+            <View style={{ marginTop: 100 }}>
+                <Text style={styles.titleInput}>Mô tả</Text>
+                <TextInputCustom
+                    refInput={input => {
+                        this.description = input;
+                    }}
+                    value={description}
+                    onChangeText={description => {
+                        this.setState({ description, error: null })
+                        this.validateString(description, null, "Mô tả công việc", false)
+                    }}
+                    inputNormalStyle={{ marginHorizontal: Constants.MARGIN_LARGE - 2 }}
+                    returnKeyType={"next"}
+                    multiline={true}
+                    isMultiLines={true}
+                    placeholder={"Mô tả công việc"}
+                    keyboardType="default"
+                    editable={true}
+                    visibleHr={true}
+                    onSubmitEditing={() => {
+                        setTimeout(() => {
+                            this.requirement.focus()
+                        })
+                    }}
+                    textBackground={Colors.COLOR_WHITE}
+                    onPressPlaceHolder={() => { this.description.focus() }}
+                />
+                <Text style={[commonStyles.text700, {
+                    marginLeft: Constants.MARGIN_LARGE,
+                    marginTop: Constants.MARGIN_X_LARGE,
+                    fontSize: Fonts.FONT_SIZE_MEDIUM,
+                    color: Colors.COLOR_ERA
+                }]}>{error ? error : null}</Text>
+            </View>
+        )
+    }
+
     /**
      * Render input title
      */
@@ -923,7 +951,7 @@ class AddJobView extends BaseView {
                     value={requirement}
                     onChangeText={requirement => {
                         this.setState({ requirement, errorRequirement: null })
-                        this.validateString(requirement, null, "Yêu cầu công việc", false)
+                        this.validateString(requirement, null, "Yêu cầu công việc", false, true)
                     }
                     }
                     inputNormalStyle={{ marginHorizontal: Constants.MARGIN_LARGE - 2 }}
@@ -1077,7 +1105,7 @@ class AddJobView extends BaseView {
                     returnKeyType={"next"}
                     isInputNormal={true}
                     placeholder={"Số điện thoại liên lạc"}
-                    keyboardType="default"
+                    keyboardType="phone-pad"
                     editable={true}
                     visibleHr={true}
                     onSubmitEditing={() => {
@@ -1101,7 +1129,7 @@ class AddJobView extends BaseView {
                     returnKeyType={"next"}
                     isInputNormal={true}
                     placeholder={"Số điện thoại liên lạc khác"}
-                    keyboardType="default"
+                    keyboardType="phone-pad"
                     editable={true}
                     visibleHr={true}
                     onSubmitEditing={() => {
@@ -1499,7 +1527,7 @@ class AddJobView extends BaseView {
                                 "Đang xử lí video..." :
                                 localizes('postNewView.uploadingPicture')}
                         </Text>
-                 
+
                     </View>
                 </View>
             </Modal>
@@ -1549,7 +1577,7 @@ class AddJobView extends BaseView {
         let uriArray = uri.split("/");
         let url = uriArray[uriArray.length - 1];
         let folder = this.state.title.replace(/ /g, "_");
-        let fr = storage().ref(`job/${folder}/job${url}`);
+        let fr = firebase.storage().ref(`job/${folder}/job${url}`);
         fr.putFile(uri, { contentType: 'image/jpeg' }).on(
             firebase.storage.TaskEvent.STATE_CHANGED,
             snapshot => {

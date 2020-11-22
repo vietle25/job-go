@@ -150,7 +150,7 @@ class ApplyHistoryView extends BaseView {
             <Container style={styles.container}>
                 <Root>
                     <HeaderGradient
-                        onBack={this.handlerBackButton}
+                        onBack={this.onBack}
                         visibleBack={true}
                         title={"Việc làm đã ứng tuyển"}
                     />

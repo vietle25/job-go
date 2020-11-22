@@ -26,8 +26,7 @@ import StorageUtil from 'utils/storageUtil';
 import { ActionEvent, getActionSuccess } from "actions/actionEvent";
 import { ErrorCode } from "config/errorCode";
 import { localizes } from "locales/i18n";
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
+import firebase from 'react-native-firebase';
 import RNRestart from 'react-native-restart';
 import { Fonts } from "values/fonts";
 import statusType from "enum/statusType";
@@ -57,8 +56,6 @@ import ic_cancel from 'images/ic_cancel_blue.png';
 import { colors } from "react-native-elements";
 import ItemJob from 'containers/job/list/itemJob';
 import ic_add from 'images/ic_add.png';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import ic_sort_blue from 'images/ic_sort_blue.png';
 import { Action } from "rxjs/internal/scheduler/Action";
 import JobList from './jobList'
 import {
@@ -168,7 +165,7 @@ class HomeView extends BaseView {
         StorageUtil.retrieveItem(StorageUtil.USER_PROFILE).then(user => {
             if (!Utils.isNull(user)) {
                 try {
-                    database().ref(`members`).on('value', (memberSnap) => {
+                    firebase.database().ref(`members`).on('value', (memberSnap) => {
                         let unseen = 0
                         if (!Utils.isNull(memberSnap.val())) {
                             let conversationIds = []
@@ -534,8 +531,7 @@ class HomeView extends BaseView {
                                 onRefresh={this.handleRefresh}
                             />
                         }
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{}}>
+                        showsVerticalScrollIndicator={false}>
                         <SliderBanner
                             data={this.bannerMainScreen}
                         />
@@ -577,7 +573,7 @@ class HomeView extends BaseView {
                     <Image source={ic_logo} style={{ width: 36, height: 36, marginRight: Constants.MARGIN_LARGE }} />
                     <Text style={[commonStyles.textPlaceHolder, { fontSize: Fonts.FONT_SIZE_XX_SMALL }]}>Chào {this.state.user != null ? <Text style={[commonStyles.textPlaceHolder, { fontSize: Fonts.FONT_SIZE_XX_SMALL, fontWeight: 'bold' }]}>{this.state.user.name}</Text> : ""}, bạn muốn tìm việc gì ?</Text>
                 </View>
-                <Image source={ic_search_blue} style={{}} />
+                <Image source={ic_search_blue} />
             </TouchableOpacity>
         )
     }

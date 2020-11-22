@@ -62,4 +62,47 @@ export default styles = {
         borderColor: Colors.COLOR_PRIMARY,
         marginRight: Constants.MARGIN_X_LARGE
     },
+    containerItem: {
+        flex: 1,
+        backgroundColor: Colors.COLOR_WHITE,
+        paddingVertical: Constants.PADDING_LARGE,
+        flexDirection: 'row',
+    },
+    image: {
+        borderRadius: Constants.CORNER_RADIUS
+    },
+    address: {
+        ...commonStyles.text,
+        marginHorizontal: Constants.MARGIN_LARGE,
+        fontSize: Fonts.FONT_SIZE_MEDIUM,
+        color: Colors.COLOR_DRK_GREY,
+        margin: 0, padding: 0
+    },
+    titleItem: {
+        ...commonStyles.text,
+        marginHorizontal: Constants.MARGIN_LARGE,
+        fontSize: Fonts.FONT_SIZE_XX_MEDIUM,
+        margin: 2, padding: 0
+    },
+    salary: {
+        ...commonStyles.text,
+        marginHorizontal: Constants.MARGIN_LARGE,
+        fontSize: Fonts.FONT_SIZE_X_MEDIUM,
+        color: Colors.COLOR_TEXT_PRIMARY,
+        margin: 2, padding: 0
+    },
+    viewUser: {
+        backgroundColor: Colors.COLOR_BACKGROUND,
+        paddingHorizontal: Constants.PADDING_X_LARGE,
+        borderRadius: Constants.CORNER_RADIUS * 4,
+        marginHorizontal: Constants.MARGIN_LARGE,
+        maxWidth: Constants.MAX_WIDTH * 0.7,
+        paddingVertical: Constants.PADDING, flex: 1,
+        marginBottom: Constants.MARGIN_LARGE
+    },
+    btnSave: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItem: 'center'
+    }
 }

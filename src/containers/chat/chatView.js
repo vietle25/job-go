@@ -26,15 +26,14 @@ import FlatListCustom from 'components/flatListCustom';
 import StringUtil from "utils/stringUtil";
 import { filter } from "rxjs/operators";
 import moment from 'moment';
-import ic_camera_black from 'images/ic_camera_black.png';
+import ic_camera_grey from 'images/ic_camera_grey.png';
 import ic_back_black from 'images/ic_back_white.png';
 import ic_animated_sticker_black from 'images/ic_cancel_blue.png';
 import StorageUtil from 'utils/storageUtil';
 import { CalendarScreen } from "components/calendarScreen";
 import statusType from "enum/statusType";
 import ItemChat from "./ItemChat";
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
+import firebase from 'react-native-firebase';
 import ImagePicker from 'react-native-image-crop-picker';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as actions from 'actions/userActions';
@@ -48,7 +47,6 @@ import HeaderGradient from 'containers/common/headerGradient.js';
 import ic_close_circle_gray from 'images/ic_close_circle_gray.png';
 import FastImage from "react-native-fast-image";
 import RNFetchBlob from "rn-fetch-blob";
-import RNFS from 'react-native-fs';
 import ImageSize from 'react-native-image-size'
 import ic_send_blue from 'images/ic_send_blue.png';
 
@@ -114,6 +112,7 @@ class ChatView extends BaseView {
             messageType: "",
             receiverResourceAction: 0
         };
+        this.firebaseRef = firebase.database();
         this.listSendImages = [];
         this.isDisableBtn = false;
         this.firstMessageType = messageType.NORMAL_MESSAGE;
@@ -147,12 +146,12 @@ class ChatView extends BaseView {
     handleUnseen = () => {
         let countUnseen = 0;
         if (!Utils.isNull(this.conversationId)) {
-            database().ref(`members/c${this.conversationId}/u${this.state.userId}/number_of_unseen_messages`)
+            this.firebaseRef.ref(`members/c${this.conversationId}/u${this.state.userId}/number_of_unseen_messages`)
                 .transaction(function (value) {
                     countUnseen = value;
                     return 0;
                 });
-            database().ref(`chats_by_user/u${this.state.userId}/number_of_unseen_messages`)
+            this.firebaseRef.ref(`chats_by_user/u${this.state.userId}/number_of_unseen_messages`)
                 .transaction(function (value) {
                     return value - countUnseen;
                 });
@@ -164,7 +163,7 @@ class ChatView extends BaseView {
      */
     watchDeletedConversation() {
         if (!Utils.isNull(this.conversationId)) {
-            this.deletedConversation = database().ref(`conversation/c${this.conversationId}/deleted`)
+            this.deletedConversation = this.firebaseRef.ref(`conversation/c${this.conversationId}/deleted`)
             this.deletedConversation.on('value', (memberSnap) => {
                 return this.deleted = memberSnap.val()
             })
@@ -223,7 +222,7 @@ class ChatView extends BaseView {
      * Get all member in this conversation current
      */
     getOtherUserIdsInConversation() {
-        database().ref(`conversation/c${this.conversationId}`).once('value', (snapshot) => {
+        this.firebaseRef.ref(`conversation/c${this.conversationId}`).once('value', (snapshot) => {
             if (!Utils.isNull(snapshot.val())) {
                 this.otherUserIdsInConversation = []
                 snapshot.forEach(element => {
@@ -282,7 +281,7 @@ class ChatView extends BaseView {
     }
 
     readMessage = () => {
-        database().ref(`chats_by_user/u${this.userId}/_conversation/c${this.conversationId}/number_unseen`).transaction(function (value) {
+        this.firebaseRef.ref(`chats_by_user/u${this.userId}/_conversation/c${this.conversationId}/number_unseen`).transaction(function (value) {
             return 0;
         });
     }
@@ -298,7 +297,7 @@ class ChatView extends BaseView {
             this.isScrollEnd = false
         }
         try {
-            database().ref(`messages_by_conversation/c${this.conversationId}`)
+            this.firebaseRef.ref(`messages_by_conversation/c${this.conversationId}`)
                 .limitToLast(this.onceQuery)
                 .on('value', (messageSnap) => {
                     let messages = [];
@@ -366,6 +365,7 @@ class ChatView extends BaseView {
         if (this.props.errorCode != ErrorCode.ERROR_INIT) {
             if (this.props.errorCode == ErrorCode.ERROR_SUCCESS) {
                 if (this.props.action == getActionSuccess(ActionEvent.CREATE_CONVERSATION)) {
+                    console.log("DATA CREATE CONVERSATION", data)
                     if (!Utils.isNull(data)) {
                         if (!Utils.isNull(data.conversationId)) {
                             this.conversationId = data.conversationId;
@@ -424,7 +424,7 @@ class ChatView extends BaseView {
                 roomId={this.roomId}
                 userAdminId={1}
                 onPressSendAction={(actionValue, conversationId, keyMessage) => {
-                    database().ref().update({
+                    this.firebaseRef.ref().update({
                         [`messages_by_conversation/c${conversationId}/${keyMessage}/receiver_resource_action`]: this.receiverResourceAction(actionValue)
                     }).then(() => {
                         this.isScrollEnd = false
@@ -496,28 +496,18 @@ class ChatView extends BaseView {
      * Send message
      * @param {*} contentMessages 
      * @param {*} contentImages // when send image. contentImages = 'path 1, path 2, ...'
-     * @param {*} isUploadStickerOrGif // default = false 
      */
-    onPressSendMessages = async (contentMessages, contentImages, isUploadStickerOrGif = false) => {
+    onPressSendMessages = async (contentMessages, contentImages) => {
         let timestamp = DateUtil.getTimestamp();
         let typeMessage = messageType.NORMAL_MESSAGE;
         if (!Utils.isNull(contentMessages) || !Utils.isNull(this.state.messageText) || !Utils.isNull(contentImages)) {
             let content = ""
-            if (isUploadStickerOrGif == false)
-                if (!Utils.isNull(contentMessages)) {
-                    content = contentMessages
-                } else if (!Utils.isNull(this.state.messageText)) {
-                    content = this.state.messageText.trim();
-                    content = this.handleTextForCustomEmoji(content);
-                    content = emoji.emojify(content);
+            if (!Utils.isNull(contentMessages)) {
+                content = contentMessages
+            } else if (!Utils.isNull(this.state.messageText)) {
+                content = this.state.messageText.trim();
 
-                } else {
-                    content = contentImages;
-                    typeMessage = messageType.IMAGE_MESSAGE;
-                    this.setState({ typeMessage: typeMessage });
-                }
-            // handle for UPLOAD STICKER
-            else {
+            } else {
                 content = contentImages;
                 typeMessage = messageType.IMAGE_MESSAGE;
                 this.setState({ typeMessage: typeMessage });
@@ -564,18 +554,18 @@ class ChatView extends BaseView {
                                 //     }
                                 // }
                             };
-                            database().ref().update(updateData);
+                            this.firebaseRef.ref().update(updateData);
                         })
-                        // database().ref(`conversation/c${this.conversationId}/u${this.userMemberId}/numberUnseen`).transaction(function (value) {
+                        // this.firebaseRef.ref(`conversation/c${this.conversationId}/u${this.userMemberId}/numberUnseen`).transaction(function (value) {
                         //     return 1;
                         // });
                         // if (!this.increasedUnseen) {
-                        //     database().ref(`chats_by_user/u${this.userMemberId}/number_unseen_conversation`).transaction(function (value) {
+                        //     this.firebaseRef.ref(`chats_by_user/u${this.userMemberId}/number_unseen_conversation`).transaction(function (value) {
                         //         return value + 1;
                         //     });
                         //     this.increasedUnseen = true
                         // }
-                        database().ref().update({
+                        this.firebaseRef.ref().update({
                             [`conversation/c${this.conversationId}/last_messages`]: {
                                 content: content,
                                 timestamp: firebase.database.ServerValue.TIMESTAMP,
@@ -583,8 +573,8 @@ class ChatView extends BaseView {
                             }
                         })
                         // push new message:
-                        let newMessageKey = database().ref(`messages_by_conversation/c${this.conversationId}`).push().key;
-                        database().ref().update({
+                        let newMessageKey = this.firebaseRef.ref(`messages_by_conversation/c${this.conversationId}`).push().key;
+                        this.firebaseRef.ref().update({
                             [`messages_by_conversation/c${this.conversationId}/${newMessageKey}`]: {
                                 from_user_id: this.userId,
                                 content: content.trim(),
@@ -918,7 +908,7 @@ class ChatView extends BaseView {
                     let result = JSON.parse(data.responseBody)
                     let pathImage = result.data
                     if (isUploadSticker) {
-                        this.onPressSendMessages('', pathImage, true)
+                        this.onPressSendMessages('', pathImage)
                         return;
                     } else {
                         this.objectImages += pathImage + (this.indexImagesMessage == this.listSendImages.length - 1 ? '' : ',')
@@ -1040,7 +1030,7 @@ class ChatView extends BaseView {
                     />
                     {this.state.nodata ?
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginHorizontal: Constants.MARGIN_XX_LARGE }}>
-                            <Text style={{ textAlign: 'center' }}>Nói lời chào là cách đơn giản để bắt đầu cuộc trò chuyện :)</Text>
+                            <Text style={{ ...commonStyles.text, textAlign: 'center', marginHorizontal: Constants.MARGIN_XX_LARGE }}>Nói lời chào là cách đơn giản để bắt đầu cuộc trò chuyện :)</Text>
                         </View>
                         :
                         <FlatListCustom

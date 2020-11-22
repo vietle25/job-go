@@ -144,7 +144,6 @@ class OTPView extends BaseView {
     }
 
     componentWillUnmount () {
-        StatusBar.setBackgroundColor('#24336a', true);
         BackHandler.removeEventListener("hardwareBackPress", () => { this.handlerBackButton });
     }
 

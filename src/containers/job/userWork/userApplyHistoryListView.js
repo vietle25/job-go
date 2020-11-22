@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, UIManager, Platform } from "react-native";
+import { View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions,  Platform } from "react-native";
 import BaseView from "containers/base/baseView";
 import { Container, Header, Content, Root, Title, Col, Spinner } from "native-base";
 import FlatListCustom from "components/flatListCustom";

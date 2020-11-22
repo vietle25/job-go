@@ -176,7 +176,8 @@ export class JobSavedView extends BaseView {
                             }}
                         />
                         : !this.props.isLoading ?
-                            <Text style={{ flex: 1, textAlignVertical: 'center', textAlign: 'center' }}>Đăng nhập hoặc đăng kí để lưu lại những việc làm yêu thích nhé</Text> : null}
+                            <Text style={{ flex: 1, textAlignVertical: 'center', textAlign: 'center', ...commonStyles.text, marginHorizontal: Constants.MARGIN_X_LARGE }}>
+                                Đăng nhập hoặc đăng kí để lưu lại những việc làm yêu thích nhé</Text> : null}
                     {this.state.refreshing || this.state.isLoadingMore ? null : this.showLoadingBar(this.props.isLoading)}
                 </Root>
 

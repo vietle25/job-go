@@ -18,6 +18,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import DateUtil from 'utils/dateUtil';
 import moment from 'moment';
 import ic_cancel_white from 'images/ic_cancel_blue.png';
+import firebase from 'react-native-firebase';
 import ImageLoader from 'components/imageLoader';
 import ic_default_user from 'images/ic_default_user.png';
 import messageType from 'enum/messageType';

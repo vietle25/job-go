@@ -3,7 +3,7 @@ import {
     ListView, View, Alert, Image, RefreshControl, Dimensions,
     FlatList, ScrollView, TouchableOpacity, BackHandler, Linking,
     TextInput, ImageBackground,
-    Keyboard, Animated
+    Keyboard, Animated, StatusBar
 } from "react-native";
 import {
     Container, Header, Content, Button, Icon, List, Tabs,
@@ -61,7 +61,7 @@ import StringUtil from "utils/stringUtil";
 const HEADER_HEIGHT = Platform.OS === "ios" ? 64 : 56;
 const screen = Dimensions.get('window')
 const HEADER_EXPANDED_HEIGHT = screen.width * (9 / 16);
-const HEADER_COLLAPSED_HEIGHT = Platform.OS === "ios" ? 52 : 52;
+const HEADER_COLLAPSED_HEIGHT = Platform.OS === "ios" ? 72 : 78;
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 class JobDetailView extends BaseView {
@@ -132,7 +132,7 @@ class JobDetailView extends BaseView {
         });
     }
 
-    UNSAFE_componentWillReceiveProps (nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.props = nextProps
             this.handleData()
@@ -142,7 +142,7 @@ class JobDetailView extends BaseView {
     /**
      * Handle data when request
      */
-    handleData () {
+    handleData() {
         let data = this.props.data;
         if (this.props.errorCode != ErrorCode.ERROR_INIT) {
             if (this.props.errorCode == ErrorCode.ERROR_SUCCESS) {
@@ -196,7 +196,7 @@ class JobDetailView extends BaseView {
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         BackHandler.removeEventListener("hardwareBackPress", this.handlerBackButton);
     }
 
@@ -231,7 +231,7 @@ class JobDetailView extends BaseView {
     }
 
 
-    render () {
+    render() {
         const { isSearch, enableRefresh, refreshing } = this.state;
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
@@ -254,19 +254,23 @@ class JobDetailView extends BaseView {
         return (
             <Container>
                 <Root>
-                    <Animated.View 
-                    collapsable={false}
-                    style={[{
-                        ...commonStyles.shadowOffset,
-                        backgroundColor: 'white',
-                        position: 'absolute',
-                        width: screen.width,
-                        top: 0,
-                        left: 0,
-                        // zIndex: 20,
-                        height: headerHeight
-                    }]}>
-                        <Animated.Text collapsable={false} numberOfLines={1} style={{ paddingHorizontal: Constants.MARGIN_X_LARGE * 3, textAlign: 'center', fontSize: 18, color: 'black', marginTop: 16, opacity: headerTitleOpacity }}>{headerTitle}</Animated.Text>
+                    <Animated.View
+                        collapsable={false}
+                        style={[{
+                            ...commonStyles.shadowOffset,
+                            backgroundColor: 'white',
+                            position: 'absolute',
+                            width: screen.width,
+                            top: 0,
+                            left: 0,
+                            // zIndex: -1000,
+                            height: headerHeight
+                        }]}>
+                        <Animated.Text collapsable={false} numberOfLines={1} style={{
+                            paddingHorizontal: Constants.MARGIN_X_LARGE * 3,
+                            textAlign: 'center', fontSize: 18, color: 'black',
+                            marginTop: 44, opacity: headerTitleOpacity
+                        }}>{headerTitle}</Animated.Text>
                         <Animated.View collapsable={false} style={{ position: "absolute", bottom: 0, opacity: heroTitleOpacity }}>
                             {this.jobResource.length > 0 ?
                                 <SliderBanner
@@ -331,14 +335,14 @@ class JobDetailView extends BaseView {
                 {this.renderModalApply()}
                 {this.renderModalDropApply()}
                 <TouchableOpacity
-                    style={{ padding: 8, position: 'absolute', top: 10, left: 16, elevation: 16 }}
+                    style={{ padding: 8, position: 'absolute', top: 36, left: 16, elevation: 16 }}
                     onPress={() => {
                         this.onBack()
                     }} >
                     <Image source={ic_back_blue}></Image>
                 </TouchableOpacity>
-
                 {this.state.refreshing ? null : this.showLoadingBar(this.props.isLoading)}
+                <StatusBar translucent backgroundColor='transparent' />
             </Container>
         );
     }
@@ -346,7 +350,7 @@ class JobDetailView extends BaseView {
     /**
     * Render Slider Banner
     */
-    renderSliderImage () {
+    renderSliderImage() {
         const { navigation } = this.props
         if (this.jobResource.length > 0) {
             return (
@@ -359,7 +363,7 @@ class JobDetailView extends BaseView {
         }
     }
 
-    renderCreatedUser () {
+    renderCreatedUser() {
         return (
             <View>
                 <View style={{ flexDirection: 'row', marginVertical: Constants.MARGIN_X_LARGE, alignItems: 'center' }}>
@@ -375,7 +379,7 @@ class JobDetailView extends BaseView {
         )
     }
 
-    renderJobInfo () {
+    renderJobInfo() {
         if (this.job == null) return null;
         return (
             <View>
@@ -421,7 +425,7 @@ class JobDetailView extends BaseView {
         }
     }
 
-    renderJobDetail () {
+    renderJobDetail() {
         if (this.job == null) return null;
         return (
             <View>
@@ -469,7 +473,7 @@ class JobDetailView extends BaseView {
         )
     }
 
-    renderCategories () {
+    renderCategories() {
         if (this.job == null) return null;
         return (
             <View>
@@ -487,7 +491,7 @@ class JobDetailView extends BaseView {
         )
     }
 
-    renderButton () {
+    renderButton() {
         if (this.job == null) return null;
         if (this.state.userId == null) {
             return (
@@ -561,10 +565,10 @@ class JobDetailView extends BaseView {
         }
     }
 
-    renderOwnerButton () {
+    renderOwnerButton() {
     }
 
-    renderContact () {
+    renderContact() {
         if (this.job == null) return null;
         // if (this.job.phoneContactPrimary == null && this.job.emailContact == null) return null;
         let justEmail = this.job.phoneContactPrimary == null && this.job.phoneContactSecondary == null && this.job.emailContact != null;
@@ -623,7 +627,7 @@ class JobDetailView extends BaseView {
         this.refs.modalApply.hideModal()
     }
 
-    renderModalApply () {
+    renderModalApply() {
         return (
             <ModalPopup
                 ref={'modalApply'}
@@ -651,7 +655,7 @@ class JobDetailView extends BaseView {
         this.refs.modalDropApply.hideModal()
     }
 
-    renderModalDropApply () {
+    renderModalDropApply() {
         return (
             <ModalPopup
                 ref={'modalDropApply'}
@@ -679,7 +683,7 @@ class JobDetailView extends BaseView {
         this.refs.modalDelete.hideModal()
     }
 
-    renderModalDelete () {
+    renderModalDelete() {
         return (
             <ModalPopup
                 ref={'modalDelete'}
@@ -703,7 +707,7 @@ class JobDetailView extends BaseView {
      * Show loading bar
      * @param {*} isShow 
      */
-    showLoadingBar (isShow) {
+    showLoadingBar(isShow) {
         return isShow ? <Spinner style={{ position: 'absolute', top: (screen.height) / 2, left: 0, right: 0, bottom: 0, zIndex: 1000 }} color={Colors.COLOR_PRIMARY} ></Spinner> : null
     }
 }

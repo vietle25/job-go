@@ -55,7 +55,6 @@ class ForgotPasswordView extends BaseView {
     }
 
     componentWillUnmount () {
-        StatusBar.setBackgroundColor(Colors.COLOR_PRIMARY, true);
         BackHandler.removeEventListener("hardwareBackPress", () => { this.handlerBackButton });
     }
 
@@ -145,6 +144,7 @@ class ForgotPasswordView extends BaseView {
                                     })
                                 }
                             }}
+                            textBackground={'transparent'}
                             keyboardType="numeric"
                             inputNormalStyle={styles.inputNormal}
                             onSubmitEditing={() => {
@@ -186,7 +186,7 @@ class ForgotPasswordView extends BaseView {
                         showsVerticalScrollIndicator={false}
                     >
                         <Text style={[commonStyles.titleInputForm, {
-                            alignItems: 'flex-start',
+                            alignItems: 'flex-start', 
                             marginLeft: 0, textAlign: 'center',
                             color: Colors.COLOR_WHITE,
                             marginBottom: Constants.MARGIN_X_LARGE

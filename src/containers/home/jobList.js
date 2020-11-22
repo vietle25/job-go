@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Image, RefreshControl, TextInput, Keyboard, Alert, Dimensions, Animated, Platform } from "react-native";
+import {
+    View, Text, TouchableOpacity, Image,
+    RefreshControl, TextInput, Keyboard, Alert, Dimensions,
+    Pressable
+} from "react-native";
 import BaseView from "containers/base/baseView";
-import { Container, Header, Content, Root, Title, Col, Spinner } from "native-base";
+import { Container, Header, Content, Root, Spinner } from "native-base";
 import FlatListCustom from "components/flatListCustom";
 import { Colors } from "values/colors";
 import { Constants } from "values/constants";
@@ -30,12 +34,6 @@ import ItemJob from 'containers/job/list/itemJob';
 import ic_close_blue from 'images/ic_close.png';
 import ic_add from 'images/ic_add.png';
 import ic_sort_blue from 'images/ic_sort_blue.png';
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
 import HeaderGradient from 'containers/common/headerGradient';
 
 class JobList extends BaseView {
@@ -52,58 +50,11 @@ class JobList extends BaseView {
         this.enableRefresh = true
     }
 
-    componentWillMount() { }
-
-    componentDidMount() {
-    }
-
-    /**
-     * Receive prop from advisory or redux
-     */
-    componentWillReceiveProps = nextProps => {
-        if (nextProps != this.props) {
-            this.props = nextProps;
-            this.handleData();
-        }
-    };
-
-    /** 
-     * Handle data when request
-     */
-    handleData() {
-        let data = this.props.data;
-        if (this.props.errorCode != ErrorCode.ERROR_INIT) {
-            if (this.props.errorCode == ErrorCode.ERROR_SUCCESS) {
-                if (this.props.action == getActionSuccess(ActionEvent.SAVE_JOB)) {
-                    if (data) {
-                        console.log("SAVE JOB IN HOME DATA: ", data);
-                        // this.showMessage()
-                    }
-                }
-                this.state.refreshing = false;
-                this.state.isLoadingMore = false;
-            } else {
-                this.handleError(this.props.errorCode, this.props.error);
-            }
-        }
-    }
-
-    componentWillUnmount() {
-
-    }
-
-    /**
-     * Refresh
-     */
-    handleRefresh = () => {
-    };
-
-
     render() {
         let data = this.props.joblist != null ? this.props.joblist : [];
         if (data.length == 0) return null;
         return (
-            <Root style={{ backgroundColor: Colors.COLOR_WHITE, }}>
+            <View style={{ backgroundColor: Colors.COLOR_WHITE }}>
                 <FlatListCustom
                     onRef={(ref) => { this.flatListRef = ref }}
                     style={{
@@ -122,15 +73,15 @@ class JobList extends BaseView {
                     }}
                 />
                 {this.renderButtonViewMore()}
-            </Root>
+            </View>
         );
     }
 
     renderButtonViewMore() {
         return (
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate("JobList") }}>
+            <Pressable onPress={() => { this.props.navigation.navigate("JobList") }}>
                 <Text style={{ textAlign: 'center', fontSize: Fonts.FONT_SIZE_XX_MEDIUM, color: Colors.COLOR_TEXT_PRIMARY }}>Xem thêm</Text>
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 

@@ -31,8 +31,6 @@ import {
     ListItem,
     Left,
     Header,
-    Item,
-    Picker,
     Body,
     Root,
 } from 'native-base';
@@ -49,7 +47,6 @@ import {CheckBox} from 'react-native-elements';
 import {Constants} from 'values/constants';
 import {Icon} from 'react-native-elements';
 import Utils from 'utils/utils';
-import ModalDropdown from 'components/modalDropdown';
 import {connect} from 'react-redux';
 import StorageUtil from 'utils/storageUtil';
 import {ErrorCode} from 'config/errorCode';
@@ -62,15 +59,18 @@ import roleType from 'enum/roleType';
 import userType from 'enum/userType';
 import screenType from 'enum/screenType';
 import TextInputCustom from 'components/textInputCustom';
+import ic_logo_green from 'images/ic_log_splash.png';
 import OTPType from 'enum/otpType';
 import HeaderGradient from 'containers/common/headerGradient.js';
 import ButtonGradient from 'containers/common/buttonGradient';
+import ic_phone_receiver_green from 'images/ic_cancel_blue.png';
 import ic_hide from 'images/ic_cancel_blue.png';
+import ic_eye_close from 'images/ic_eye_close.png';
 import LinearGradient from 'react-native-linear-gradient';
 import otpType from 'enum/otpType';
 import statusType from 'enum/statusType';
+import bg from 'images/ic_cancel_blue.png';
 import ic_logo from 'images/ic_log_splash.png';
-import ic_eye_blue from 'images/ic_eye_blue.png';
 import {thisExpression} from '@babel/types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
@@ -484,7 +484,7 @@ class ConfirmRegisterView extends BaseView {
                                         underlayColor='transparent'
                                     >
                                         <Image style={{resizeMode: 'contain', width: 18, height: 18}}
-                                            source={(this.state.hidePassword) ? ic_hide : ic_eye_blue} />
+                                            source={(this.state.hidePassword) ? ic_hide : ic_eye_close} />
                                     </TouchableHighlight>
                                 </View>
                                 {/* Confirm password */}
@@ -520,7 +520,7 @@ class ConfirmRegisterView extends BaseView {
                                         underlayColor='transparent'
                                     >
                                         <Image style={{resizeMode: 'contain', width: 18, height: 18}}
-                                            source={(this.state.hideConfirmPassword) ? ic_hide : ic_eye_blue} />
+                                            source={(this.state.hideConfirmPassword) ? ic_hide : ic_eye_close} />
                                     </TouchableHighlight>
                                 </View>
                                 {Platform.OS === "android" ? <View /> : <KeyboardSpacer />}

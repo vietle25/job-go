@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Picker } from "react-native";
+import { Text, View, TouchableOpacity,} from "react-native";
 import PropTypes from "prop-types";
 import moment from "moment";
 import normalize from "./normalizeText";
@@ -240,7 +240,7 @@ export default class DateRange extends Component {
               { height: "75%", justifyContent: "center" }
             ]}
           >
-            <Picker
+            {/* <Picker
               selectedValue={this.state.selectedYear}
               onValueChange={this.changeYear}
             >
@@ -253,7 +253,7 @@ export default class DateRange extends Component {
                   />
                 );
               })}
-            </Picker>
+            </Picker> */}
           </View>
         )}
       </View>

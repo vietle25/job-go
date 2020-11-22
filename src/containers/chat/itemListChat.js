@@ -15,8 +15,7 @@ import FlatListCustom from 'components/flatListCustom';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import DateUtil from 'utils/dateUtil';
 import moment from 'moment';
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
+import firebase from 'react-native-firebase';
 import * as actions from 'actions/userActions';
 import { ErrorCode } from 'config/errorCode';
 import { getActionSuccess, ActionEvent } from 'actions/actionEvent';
@@ -48,7 +47,7 @@ class ItemListChat extends PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps (nextProps) {
         if (this.props !== nextProps) {
             this.props = nextProps
             if (nextProps.isPressDelete) {
@@ -67,7 +66,8 @@ class ItemListChat extends PureComponent {
      */
     getUnseen = () => {
         const { item, userId } = this.props;
-        database()
+        firebase
+            .database()
             .ref(`chats_by_user/u${userId}/_conversation/c${item.conversationId}/number_unseen`)
             .on('value', (unseen) => {
                 // alert(unseen.val())
@@ -88,7 +88,7 @@ class ItemListChat extends PureComponent {
      */
     getLastMessage = () => {
         const { item, userId } = this.props;
-        database().ref(`conversation/c${item.conversationId}/last_messages`).on('value', (lastMessage) => {
+        firebase.database().ref(`conversation/c${item.conversationId}/last_messages`).on('value', (lastMessage) => {
             console.log("get last message: ", lastMessage);
             if (Utils.isNull(lastMessage.val())) {
                 this.setState({
@@ -107,7 +107,8 @@ class ItemListChat extends PureComponent {
      */
     getDeleted = () => {
         const { item, userId } = this.props;
-            database()
+        firebase
+            .database()
             .ref(`conversation/c${item.conversationId}/deleted`)
             .on('value', (deleted) => {
                 if (Utils.isNull(deleted.val())) {
@@ -122,13 +123,13 @@ class ItemListChat extends PureComponent {
             });
     }
 
-    componentDidMount() {
+    componentDidMount () {
         this.getUnseen();
         this.getLastMessage();
         this.getDeleted();
     }
 
-    render() {
+    render () {
         const { data, item, index, onPressItemChat, onPressDeleteItem, resourcePath, onLongPressItem, itemSelected, length } = this.props;
         let parseItem = {
             lastMessage: !Utils.isNull(this.state.lastMessage)

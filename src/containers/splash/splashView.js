@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, Picker, ScrollView, Dimensions, ImageBackground, View, 
+import { FlatList, ScrollView, Dimensions, ImageBackground, View, 
     StatusBar, StyleSheet, Alert, Animated, Easing, Image } from "react-native";
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Content, Text, Card, CardItem } from "native-base";
 import { Colors } from "values/colors";

@@ -17,24 +17,24 @@
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven4" />
-      <option name="name" value="maven4" />
-      <option name="url" value="https://maven.google.com" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="MavenLocal" />
       <option name="name" value="MavenLocal" />
       <option name="url" value="file:/$USER_HOME$/.m2/repository/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven3" />
-      <option name="name" value="maven3" />
-      <option name="url" value="https://www.jitpack.io" />
+      <option name="id" value="maven5" />
+      <option name="name" value="maven5" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/jsc-android/dist/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/react-native/android/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="maven" />
       <option name="name" value="maven" />
-      <option name="url" value="file:/D:/My%20Project/JOBGO/JobGo-user/node_modules/react-native/android/" />
+      <option name="url" value="https://maven.google.com" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="BintrayJCenter" />
@@ -42,9 +42,9 @@
       <option name="url" value="https://jcenter.bintray.com/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven2" />
-      <option name="name" value="maven2" />
-      <option name="url" value="file:/D:/My%20Project/JOBGO/JobGo-user/node_modules/jsc-android/dist/" />
+      <option name="id" value="maven3" />
+      <option name="name" value="maven3" />
+      <option name="url" value="https://jitpack.io" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="Google" />
@@ -52,19 +52,44 @@
       <option name="url" value="https://dl.google.com/dl/android/maven2/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven5" />
-      <option name="name" value="maven5" />
-      <option name="url" value="file:/D:/My%20Project/JOBGO/JobGo-user/node_modules/react-native-screens/node_modules/react-native/android" />
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/react-native-screens/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/@react-native-community/google-signin/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/react-native-music-control/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../../../Era%20Project/EraApp/node_modules/react-native-image-picker/Example/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="file:/$PROJECT_DIR$/../node_modules/react-native/android/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="maven5" />
       <option name="name" value="maven5" />
-      <option name="url" value="file:/D:/My%20Project/JOBGO/JobGo-user/node_modules/@react-native-community/google-signin/node_modules/react-native/android" />
+      <option name="url" value="file:/$PROJECT_DIR$/../node_modules/jsc-android/dist/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven5" />
-      <option name="name" value="maven5" />
-      <option name="url" value="https://jitpack.io" />
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../node_modules/react-native-screens/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../node_modules/@react-native-community/google-signin/node_modules/react-native/android" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="Google2" />
@@ -72,9 +97,34 @@
       <option name="url" value="https://maven.google.com/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/$PROJECT_DIR$/../node_modules/react-native-image-picker/Example/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven5" />
       <option name="name" value="maven5" />
-      <option name="url" value="file:/D:/My%20Project/JOBGO/JobGo-user/node_modules/react-native-image-picker/Example/node_modules/react-native/android" />
+      <option name="url" value="file:/D:/My%20Project/JOBGO/JobgoUser/node_modules/jsc-android/dist/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="file:/D:/My%20Project/JOBGO/JobgoUser/node_modules/react-native/android/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/D:/My%20Project/JOBGO/JobgoUser/node_modules/react-native-screens/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/D:/My%20Project/JOBGO/JobgoUser/node_modules/@react-native-community/google-signin/node_modules/react-native/android" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="file:/D:/My%20Project/JOBGO/JobgoUser/node_modules/react-native-image-picker/Example/node_modules/react-native/android" />
     </remote-repository>
   </component>
 </project>

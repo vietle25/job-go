@@ -19,7 +19,6 @@ import {
     Content,
     Form,
     Item,
-    Picker,
 } from 'native-base';
 import BaseView from 'containers/base/baseView';
 import {Constants} from 'values/constants';

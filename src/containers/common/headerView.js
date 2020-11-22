@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { ImageBackground, Dimensions, View, StatusBar, TextInput, ScrollView, TouchableOpacity, Image, Keyboard } from "react-native";
-import { Form, Textarea, Container, Header, Title, Left, Icon, Right, Button, Body, Content, Text, Card, CardItem, Fab, Footer, Input, Item, Picker } from "native-base";
+import { Form, Textarea, Container, Header, Title, Left, Icon, Right, Button, Body, Content, Text, Card, CardItem, Fab, Footer, Input, Item } from "native-base";
 import { Constants } from "values/constants";
 import { Colors } from "values/colors";
 import BaseView from "containers/base/baseView";
@@ -85,7 +85,7 @@ class HeaderView extends Component {
         visibleDark: false,
         barStyle: "dark-content",
         barBackground: Colors.COLOR_TRANSPARENT,
-        barTranslucent: true,
+        barTranslucent: false,
         backColor: 'black'
     };
 
@@ -109,7 +109,7 @@ class HeaderView extends Component {
             renderLeftMenu,
             renderMidMenu,
             barBackground,
-            barTranslucent,
+            barTranslucent = false,
             visibleDark,
             barStyle
         } = this.props;
@@ -152,13 +152,13 @@ class HeaderView extends Component {
                 {/* Render cart */}
                 {/* {this.props.visibleCart ? this.renderCart() : null} */}
                 {renderRightMenu && renderRightMenu()}
-                {/* <StatusBar
+                <StatusBar
                     animated={true}
-                    backgroundColor={barBackground}
+                    backgroundColor={Colors.COLOR_WHITE}
                     barStyle={barStyle}  // dark-content, light-content and default
                     hidden={false}  //To hide statusBar
-                    translucent={barTranslucent}  //allowing light, but not detailed shapes
-                /> */}
+                    translucent={false}  //allowing light, but not detailed shapes
+                />
             </View>
 
         );

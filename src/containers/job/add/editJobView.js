@@ -47,7 +47,7 @@ import ModalVideoViewer from 'containers/common/modalVideoViewer';
 import CameraRoll from "@react-native-community/cameraroll";
 import RNFetchBlob from 'rn-fetch-blob';
 import DateUtil from 'utils/dateUtil';
-import storage from '@react-native-firebase/storage';
+import firebase from 'react-native-firebase';
 import { TextInputMask } from "react-native-masked-text";
 import { CheckBox } from "react-native-elements";
 import { CalendarScreen } from 'components/calendarScreen';
@@ -59,7 +59,6 @@ import ModalPopup from 'components/modalPopup';
 import areaType from 'enum/areaType';
 import { Fonts } from "values/fonts";
 import statusType from 'enum/statusType';
-var RNFS = require('react-native-fs');
 
 
 const window = Dimensions.get("window");
@@ -458,7 +457,7 @@ class EditJobView extends BaseView {
                         chooseDate={this.chooseDate.bind(this)}
                         ref={ref => (this.showCalendar = ref)}
                     />
-                    {this.renderProgressUpload()}
+                    {/* {this.renderProgressUpload()} */}
                     {this.renderUploadSuccess()}
                     {this.renderUploadCancel()}
                     {this.renderModalSuccess()}
@@ -1407,7 +1406,7 @@ class EditJobView extends BaseView {
         let uriArray = uri.split("/");
         let url = uriArray[uriArray.length - 1];
         let folder = this.state.title.replace(/ /g, "_");
-        let fr = storage().ref(`job/${folder}/job${url}`);
+        let fr = firebase.storage().ref(`job/${folder}/job${url}`);
         fr.putFile(uri, { contentType: 'image/jpeg' }).on(
             firebase.storage.TaskEvent.STATE_CHANGED,
             snapshot => {

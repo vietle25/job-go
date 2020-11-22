@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {
     Container, Form, Content, Input, Button, Right, Radio, center, ListItem,
-    Left, Header, Item, Picker, Body, Root,
+    Left, Header, Body, Root,
 } from 'native-base';
 import ButtonComp from 'components/button';
 import { capitalizeFirstLetter } from 'utils/stringUtil';
@@ -39,7 +39,7 @@ import { Formik } from 'formik';
 import ic_back_blue from 'images/ic_back_blue.png';
 import register from 'images/register.png';
 import ic_back_white from 'images/ic_back_white.png';
-import NotificationType from 'enum/notificationType';
+import NotificationType from 'enum/notificationType'
 
 const deviceHeight = Dimensions.get('window').height;
 const MARGIN_BETWEEN_ITEM = 0;
@@ -377,7 +377,7 @@ class RegisterView extends BaseView {
                             }}
                             returnKeyType={'next'}
                             autoCapitalize={'words'}
-                            titleTop={-24}
+                             
                             onPressPlaceHolder={() => { this.name.focus() }}
                         />
                         {errors && errors.name && showError && <Text style={styles.textWarn}>{errors.name}</Text>}
@@ -406,7 +406,7 @@ class RegisterView extends BaseView {
                             returnKeyType={'next'}
                             inputNormalStyle={styles.inputNormal}
                             keyboardType="phone-pad"
-                            titleTop={-24}
+                             
                             onPressPlaceHolder={() => { this.phone.focus() }}
                         />
                         {errors && errors.phone && showError && <Text style={styles.textWarn}>{errors.phone}</Text>}
@@ -436,7 +436,7 @@ class RegisterView extends BaseView {
                             inputNormalStyle={styles.inputNormal}
                             keyboardType="email-address"
                             autoCapitalize='none'
-                            titleTop={-24}
+                             
                             onPressPlaceHolder={() => { this.email.focus() }}
                         />
                         {errors && errors.email && showError && <Text style={styles.textWarn}>{errors.email}</Text>}
@@ -472,7 +472,6 @@ class RegisterView extends BaseView {
                                 secureTextEntry={this.state.hidePassword}
                                 inputNormalStyle={styles.inputNormal}
                                 // autoCapitalize='sentences'
-                                titleTop={-24}
                                 onPressPlaceHolder={() => { this.password.focus() }}
                             />
                             <TouchableHighlight
@@ -519,7 +518,6 @@ class RegisterView extends BaseView {
                                 secureTextEntry={this.state.hideConfirmPassword}
                                 inputNormalStyle={styles.inputNormal}
                                 // autoCapitalize='none'
-                                titleTop={-24}
                                 onPressPlaceHolder={() => { this.confirmPassword.focus() }}
                             />
                             <TouchableHighlight
@@ -551,7 +549,6 @@ class RegisterView extends BaseView {
     }
 
     render() {
-        StatusBar.setBackgroundColor(Colors.COLOR_PRIMARY, true);
         return (
             <Container style={[styles.container]}>
                 <Root>
@@ -602,11 +599,12 @@ class RegisterView extends BaseView {
                         onPress={() => { this.onBack(); }}
                         style={{
                             padding: Constants.PADDING_X_LARGE,
-                            position: 'absolute'
+                            position: 'absolute', top: 24
                         }}>
                         <Image source={ic_back_blue} />
                     </TouchableOpacity>
                 </Root>
+                <StatusBar translucent backgroundColor='transparent' />
             </Container>
         );
     }

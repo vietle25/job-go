@@ -44,7 +44,6 @@ export default class TextInputCustom extends Component {
     }
 
     componentDidMount = () => {
-        console.log("this.state.value this.state.value", this.state.value == "" ? "Rỗng" : this.state.value == null ? "null" : this.state.value)
         Animated.spring(this.animate, {
             toValue: this.state.value == "" || this.state.value == null ? 0 : 1,
             friction: 5,
@@ -148,7 +147,7 @@ export default class TextInputCustom extends Component {
                         style={[{
                             position: 'absolute', left: 8,
                             top: top,
-                            backgroundColor: isFocus ? textBackground ? textBackground : 'transparent' : 'transparent', paddingLeft: 2, paddingRight: 4,
+                            backgroundColor: isFocus ? textBackground ? textBackground : Colors.COLOR_WHITE : 'transparent', paddingLeft: 2, paddingRight: 4,
                             fontSize: isFocus ? Fonts.FONT_SIZE_X_SMALL : Fonts.FONT_SIZE_X_MEDIUM,
                             color: isFocus ? Colors.COLOR_TEXT_PRIMARY : placeholderTextColor ? placeholderTextColor : Colors.COLOR_DRK_GREY,
                         }]}>

@@ -39,10 +39,7 @@ import {
 import GenderType from 'enum/genderType';
 import statusType from 'enum/statusType';
 import screenType from 'enum/screenType';
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
-import auth from '@react-native-firebase/auth';
-import bannerType from 'enum/bannerType';
+import bannerType from 'enum/bannerType'; 
 import TextInputCustom from 'components/textInputCustom';
 import HeaderGradient from 'containers/common/headerGradient.js';
 import ButtonGradient from 'containers/common/buttonGradient';
@@ -478,7 +475,6 @@ class LoginView extends BaseView {
 
 	render () {
 		const { user, signInError, remindLogin } = this.state;
-		StatusBar.setBackgroundColor(Colors.COLOR_PRIMARY, true);
 		return (
 			<Container style={[styles.container]}>
 				<Root>
@@ -519,7 +515,7 @@ class LoginView extends BaseView {
 									}}
 									returnKeyType={'next'}
 									keyboardType="phone-pad"
-									titleTop={-24}
+									  
 									inputNormalStyle={{ color: Colors.COLOR_TEXT }}
 									onPressPlaceHolder={() => { this.rPhone.focus() }}
 								/>
@@ -550,7 +546,6 @@ class LoginView extends BaseView {
 									}}
 									returnKeyType={'done'}
 									visibleHr={true}
-									titleTop={-24}
 									onPressPlaceHolder={() => { this.rPassword.focus() }}
 								/>
 								<TouchableHighlight
@@ -587,10 +582,11 @@ class LoginView extends BaseView {
 					style={{
 						padding: Constants.PADDING_X_LARGE,
 						position: 'absolute',
-						top: 0, left: 0
+						top: 24, left: 0
 					}}>
 					<Image source={ic_back_white} />
 				</TouchableOpacity>
+				<StatusBar translucent backgroundColor='transparent' />
 			</Container>
 		);
 	}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity } from 'react-native';
 import commonStyles from 'styles/commonStyles';
 import DateUtil from 'utils/dateUtil';
 import { Constants } from 'values/constants';
@@ -14,8 +14,8 @@ import statusType from 'enum/statusType';
 import img_expired from 'images/img_expired.png';
 import ic_love_red from 'images/ic_love_red.png';
 import ic_love_white from 'images/ic_love_white.png';
-import { save } from '@react-native-community/cameraroll';
-import ScreenType from 'enum/screenType'
+import ScreenType from 'enum/screenType';
+import styles from './styles';
 
 const WIDTH_IMAGE = Constants.MAX_WIDTH * 0.17;
 const HEIGHT_IMAGE = WIDTH_IMAGE * (12 / 8);
@@ -32,7 +32,6 @@ export default class ItemJob extends PureComponent {
     componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.props = nextProps
-            // this.state.saved = this.props.item.saved
             if (!Utils.isNull(this.props.item.requesting)) {
                 this.state.requesting = this.props.item.requesting;
             }
@@ -49,36 +48,25 @@ export default class ItemJob extends PureComponent {
         }
         return (
             <TouchableOpacity
-                style={{
-                    paddingHorizontal: Constants.PADDING_X_LARGE
-                }}
                 activeOpacity={Constants.ACTIVE_OPACITY}
+                style={{
+                    paddingHorizontal: Constants.PADDING_X_LARGE,
+                }}
                 onPress={() => onPress(item)}>
-                <View style={styles.container}>
+                <View style={styles.containerItem}>
                     {this.renderImage(item, expired)}
                     <View style={{ flex: 1 }}>
-                        <Text numberOfLines={2} style={[commonStyles.text, {
-                            marginHorizontal: Constants.MARGIN_LARGE,
-                            fontSize: Fonts.FONT_SIZE_MEDIUM,
-                            color: Colors.COLOR_DRK_GREY,
-                            margin: 0, padding: 0
-                        }]}>{item.province != null ? item.district != null ?
+                        <Text numberOfLines={2} style={styles.address}>{item.province != null ? item.district != null ?
                             item.province.name + " - " + item.district.name
                             : item.province.name : "Toàn quốc"}</Text>
-                        <Text numberOfLines={2} style={[commonStyles.text, {
-                            marginHorizontal: Constants.MARGIN_LARGE,
-                            fontSize: Fonts.FONT_SIZE_XX_MEDIUM,
-                            margin: 2, padding: 0
-                        }]}>{item.title}</Text>
-                        <Text numberOfLines={2} style={[commonStyles.text, {
-                            marginHorizontal: Constants.MARGIN_LARGE,
-                            fontSize: Fonts.FONT_SIZE_X_MEDIUM,
-                            color: Colors.COLOR_TEXT_PRIMARY,
-                            margin: 2, padding: 0
-                        }]}>{item.salary}</Text>
+                        <Text numberOfLines={2} style={styles.titleItem}>{item.title}</Text>
+                        <Text numberOfLines={2} style={styles.salary}>{item.salary}</Text>
                     </View>
-                    <TouchableOpacity
-                        activeOpacity={Constants.ACTIVE_OPACITY}
+                    <Pressable
+                        android_ripple={{
+                            color: Colors.COLOR_WHITE_DISABLE,
+                            borderless: false,
+                        }}
                         onPress={() => {
                             if (screenType == ScreenType.SAVE_JOB_VIEW) {
                                 onPressSave(item, this.state.saved, index)
@@ -99,19 +87,11 @@ export default class ItemJob extends PureComponent {
                             alignItem: 'center', justifyContent: 'center'
                         }}>
                         <Image source={saved ? ic_love_red : ic_love_white} />
-                    </TouchableOpacity>
+                    </Pressable>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItem: 'center' }}>
+                <View style={styles.btnSave}>
                     {item.status != statusType.ACTIVE ? this.renderStateJob(item) : this.renderDayLeft(item)}
-                    <View style={{
-                        backgroundColor: Colors.COLOR_BACKGROUND,
-                        paddingHorizontal: Constants.PADDING_X_LARGE,
-                        borderRadius: Constants.CORNER_RADIUS * 4,
-                        marginHorizontal: Constants.MARGIN_LARGE,
-                        maxWidth: Constants.MAX_WIDTH * 0.7,
-                        paddingVertical: Constants.PADDING, flex: 1, marginBottom: Constants.MARGIN_LARGE
-
-                    }}>
+                    <View style={styles.viewUser}>
                         <Text numberOfLines={1} style={[commonStyles.text, {
                             fontSize: Fonts.FONT_SIZE_MEDIUM
                         }]}>{item.createdBy ? item.createdBy.name : "Người dùng"}</Text>
@@ -130,7 +110,7 @@ export default class ItemJob extends PureComponent {
         }
     }
 
-    renderImage(item, expired) {
+    renderImage = (item, expired) => {
         let image = !Utils.isNull(item.resources) ? item.resources[0] != null ? item.resources[0].pathToResource : "" : "";
         return (
             <View>
@@ -190,15 +170,3 @@ export default class ItemJob extends PureComponent {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.COLOR_WHITE,
-        paddingVertical: Constants.PADDING_LARGE,
-        flexDirection: 'row',
-    },
-
-    image: {
-        borderRadius: Constants.CORNER_RADIUS
-    }
-});

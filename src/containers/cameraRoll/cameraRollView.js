@@ -16,7 +16,7 @@ import {
 import {
     Form, Textarea, Container, Header, Title, Left,
     Icon, Right, Button, Body, Content, Text, Card,
-    CardItem, Fab, Footer, Input, Item, Picker
+    CardItem, Fab, Footer
 } from "native-base";
 import {Constants} from "values/constants";
 import {Colors} from "values/colors";

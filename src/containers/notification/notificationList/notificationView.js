@@ -28,7 +28,6 @@ import ItemNotification from "./itemNotification";
 import StorageUtil from "utils/storageUtil";
 import statusType from "enum/statusType";
 import ModalContent from "./modalContent";
-import database from '@react-native-firebase/database';
 import notificationType from "enum/notificationType";
 import HeaderGradient from 'containers/common/headerGradient.js';
 import ic_menu_vertical from 'images/ic_menu_vertical.png';

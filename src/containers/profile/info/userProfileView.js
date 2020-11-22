@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Root, Header, Title, Content, Container, Tabs, Tab, TabHeading, List, Col, ScrollableTab } from "native-base";
 import {
     Image, ScrollView, Text, TouchableOpacity, View, TextInput, Dimensions, RefreshControl, processColor,
-    Item, Input, Modal, TouchableHighlight, ToastAndroid, Picker, SafeAreaView, DeviceEventEmitter, NativeModules,
-    ImageBackground, Platform, Animated, BackHandler, Statusbar
+    Item, Input, Modal, TouchableHighlight, ToastAndroid, SafeAreaView, DeviceEventEmitter, NativeModules,
+    ImageBackground, Platform, Animated, BackHandler, Statusbar, Pressable
 } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import commonStyles from "styles/commonStyles";
@@ -37,14 +37,14 @@ import HeaderGradient from 'containers/common/headerGradient.js';
 import TabsCustom from 'components/tabsCustom';
 import UserDetailView from '../detail/userDetailView';
 import CollapsibleTabsCustom from "components/collapsibleTabsCustom";
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { CalendarScreen } from "components/calendarScreen";
 import { TextInputMask } from 'react-native-masked-text';
 import genderType from "enum/genderType";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import Hr from "components/hr";
-import storage from '@react-native-firebase/storage';
+import firebase from 'react-native-firebase';
 import DatePicker from "lib/react-native-date-ranges";
+import ic_camera_circle_black from 'images/ic_camera_circle_black.png';
 
 const AVATAR_SIZE = 146;
 
@@ -79,7 +79,7 @@ class UserProfileView extends BaseView {
         this.userId = route.params.userId;
         this.callBack = route.params.callBack;
         this.userInfo = null;
-        this.storage = storage()
+        this.storage = firebase.storage()
         this.genderMenuOptions = [
             {
                 "name": "Nam",
@@ -96,7 +96,7 @@ class UserProfileView extends BaseView {
         ]
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.props.navigation.addListener('focus', () => {
             BackHandler.addEventListener("hardwareBackPress", this.handlerBackButton);
         });
@@ -148,7 +148,7 @@ class UserProfileView extends BaseView {
         return true
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.props = nextProps;
             this.handleData();
@@ -163,7 +163,7 @@ class UserProfileView extends BaseView {
     /**
      * Handle data
      */
-    handleData () {
+    handleData() {
         let data = this.props.data;
         if (this.props.errorCode != ErrorCode.ERROR_INIT) {
             if (this.props.errorCode == ErrorCode.ERROR_SUCCESS) {
@@ -298,7 +298,7 @@ class UserProfileView extends BaseView {
                     onPress={() => {
                         this.cropImage._crop()
                     }}>
-                    
+
                 </TouchableOpacity>
             </View>
         )
@@ -365,9 +365,9 @@ class UserProfileView extends BaseView {
         this.setState({
             isLoading: true
         })
-        let fr = storage().ref(`user/${this.state.user.id}/avatar`);
+        let fr = firebase.storage().ref(`user/${this.state.user.id}/avatar`);
         fr.putFile(uri, { contentType: 'image/jpeg' }).on(
-            storage().TaskEvent.STATE_CHANGED,
+            firebase.storage.TaskEvent.STATE_CHANGED,
             snapshot => {
                 console.log("snapshot uploaded image to firebase", snapshot);
                 if (snapshot.state == "success") {
@@ -391,7 +391,7 @@ class UserProfileView extends BaseView {
     /**
      * Upload avatar
      */
-    uploadAvatar () {
+    uploadAvatar() {
         const { avatar } = this.state;
         if (avatar.length === 0) {
             this.setState({
@@ -435,7 +435,7 @@ class UserProfileView extends BaseView {
      * Process upload resource
      * @param {*} options 
      */
-    processUploadResource (options) {
+    processUploadResource(options) {
         const { resources } = this.state;
         Upload.startUpload(options).then((uploadId) => {
             console.log('Upload started')
@@ -484,7 +484,7 @@ class UserProfileView extends BaseView {
     /**
     * validate
     */
-    validate () {
+    validate() {
         const { name, mail, phone, dayOfBirth } = this.state;
         let day = DateUtil.convertFromFormatToFormat(dayOfBirth, DateUtil.FORMAT_DATE_TIME_ZONE, DateUtil.FORMAT_DATE)
         let nowDateMili = DateUtil.getTimeStampNow()
@@ -541,19 +541,33 @@ class UserProfileView extends BaseView {
             birthDate: dayOfBirth,
             gender: gender.value,
             email: StringUtil.validMultipleSpace(mail.trim().toLowerCase()),
-            phone: phone
+            // phone: phone
         };
         this.props.editProfile(editData);
     };
 
 
-    renderUserAvatar () {
+    renderUserAvatar() {
         const { user } = this.state;
         if (user == null) return null;
-        console.log("URI USER AVÂTRR: ", this.state.avatar);
         return (
             <View style={{ alignItems: 'center' }}>
-                <View style={[{ position: "relative", alignItems: 'center', backgroundColor: Colors.COLOR_WHITE }]}>
+                <Pressable
+                    disabled={!this.state.isEdit}
+                    onPress={
+                        () => {
+                            this.showCameraRollView({
+                                selectSingleItem: true,
+                                callback: this.onChooseImageAvatar,
+                                callbackCaptureImage: this.onCaptureImageAvatar
+                            })
+                            this.setState({ upLoadAvatar: true })
+                        }}
+                    android_ripple={{
+                        color: Colors.COLOR_WHITE_DISABLE,
+                        borderless: false,
+                    }}
+                    style={[{ position: "relative", alignItems: 'center', backgroundColor: Colors.COLOR_WHITE }]}>
                     {this.state.avatar != null ?
                         <Image
                             source={{ uri: this.state.avatar.uri }}
@@ -567,13 +581,12 @@ class UserProfileView extends BaseView {
                         />
                     }
                     <View style={[commonStyles.viewCenter, { position: "absolute", bottom: 0 }]}>
-                        <TouchableOpacity
+                        <Pressable
+                            disabled={!this.state.isEdit}
                             style={{
                                 overflow: "hidden",
-                                backgroundColor: Colors.COLOR_BLACK_OPACITY_30,
                                 padding: Constants.PADDING,
-                                borderRadius: Constants.PADDING,
-                                bottom: Constants.MARGIN_LARGE
+                                bottom: -4, right: -32
                             }}
                             activeOpacity={Constants.ACTIVE_OPACITY}
                             onPress={
@@ -585,15 +598,16 @@ class UserProfileView extends BaseView {
                                     })
                                     this.setState({ upLoadAvatar: true })
                                 }}>
-                        </TouchableOpacity>
+                            <Image source={ic_camera_circle_black} style={{ width: 32, height: 32 }} />
+                        </Pressable>
                     </View>
-                </View>
+                </Pressable>
 
             </View>
         )
     }
 
-    renderName () {
+    renderName() {
         const { user, isEdit } = this.state;
         if (user == null) return;
         return (
@@ -629,7 +643,7 @@ class UserProfileView extends BaseView {
         )
     }
 
-    renderPhone () {
+    renderPhone() {
         const { user, isEdit } = this.state;
         if (user == null) return;
         return (
@@ -663,7 +677,7 @@ class UserProfileView extends BaseView {
         )
     }
 
-    renderMail () {
+    renderMail() {
         const { user, isEdit } = this.state;
         if (user == null) return;
         return (
@@ -702,7 +716,7 @@ class UserProfileView extends BaseView {
         )
     }
 
-    renderDayOfBirth () {
+    renderDayOfBirth() {
         const { user, isEdit } = this.state;
         if (user == null) return;
         return (
@@ -737,7 +751,7 @@ class UserProfileView extends BaseView {
         )
     }
 
-    renderGender () {
+    renderGender() {
         const { user } = this.state;
         if (user == null) return;
         return (
@@ -786,7 +800,7 @@ class UserProfileView extends BaseView {
         );
     };
 
-    renderInfo () {
+    renderInfo() {
         return (
             <View>
                 <Text style={[commonStyles.textBold, { marginBottom: Constants.MARGIN_X_LARGE }]}></Text>
@@ -799,7 +813,7 @@ class UserProfileView extends BaseView {
         )
     }
 
-    renderButton () {
+    renderButton() {
         return (
             <TouchableOpacity
                 activeOpacity={Constants.ACTIVE_OPACITY}
@@ -831,7 +845,7 @@ class UserProfileView extends BaseView {
     /**
      * Render View
      */
-    render () {
+    render() {
         const { user, isEdit } = this.state;
         return (
             <Container style={[styles.container, { backgroundColor: Colors.COLOR_WHITE }]}>

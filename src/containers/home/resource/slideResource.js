@@ -16,7 +16,7 @@ import resourceType from 'enum/resourceType';
 import ImageLoader from 'components/imageLoader';
 import commonStyles from 'styles/commonStyles';
 import styles from './styles';
-// import ic_plus_gray from "images/ic_plus_gray.png";
+import ic_plus_gray from "images/ic_add.png";
 import ItemCarouselRes from './itemCarouselRes';
 
 class SlideResource extends Component {
@@ -53,8 +53,8 @@ class SlideResource extends Component {
                     ref={(c) => {this._carousel = c}}
                     data={data}
                     renderItem={this.renderItemCarousel}
-                    sliderWidth={screen.width}
-                    itemWidth={screen.width}
+                    sliderWidth={Constants.MAX_WIDTH}
+                    itemWidth={Constants.MAX_WIDTH}
                     firstItem={indexRes}
                     loop={false}
                     autoplay={false}
@@ -99,7 +99,7 @@ class SlideResource extends Component {
                     margin: Constants.MARGIN_LARGE - 2
                 }]}
                 onPress={() => this.props.onOpenCameraRoll()}>
-                {/* <Image source={ic_plus_gray} /> */}
+                <Image source={ic_plus_gray} />
             </TouchableOpacity>
         )
     }

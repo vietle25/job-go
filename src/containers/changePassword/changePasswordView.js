@@ -50,12 +50,10 @@ class ChangePassword extends BaseView {
     componentDidMount () {
         BackHandler.addEventListener("hardwareBackPress", () => { this.handlerBackButton });
         StorageUtil.retrieveItem(StorageUtil.USER_PROFILE).then(user => {
-            //this callback is executed when your Promise is resolved
             if (!Utils.isNull(user)) {
-                this.props.checkExistPassword();
+                this.props.getProfile(user.id)
             }
         }).catch(error => {
-            //this callback is executed when your Promise is rejected
             this.saveException(error, 'componentDidMount')
         });
     }
@@ -253,7 +251,7 @@ class ChangePassword extends BaseView {
                                         this.confirmPassword.focus();
                                     }}
                                     returnKeyType={"next"}
-                                    contentRight={this.state.hideOldPassword ? ic_eye_close : ic_eye_blue}
+                                    contentRight={this.state.hideNewPassword ? ic_eye_close : ic_eye_blue}
                                     onPressRight={this.manageNewPasswordVisibility}
                                     textBackground={Colors.COLOR_WHITE}
                                     styleIcon={{ resizeMode: 'contain', width: 18, height: 18, padding: Constants.PADDING_LARGE }}
@@ -282,7 +280,7 @@ class ChangePassword extends BaseView {
                                     }
                                     returnKeyType={"done"}
                                     textBackground={Colors.COLOR_WHITE}
-                                    contentRight={this.state.hideOldPassword ? ic_eye_close : ic_eye_blue}
+                                    contentRight={this.state.hideNewPasswordConfirm ? ic_eye_close : ic_eye_blue}
                                     onPressRight={this.manageNewPasswordConfirmVisibility}
                                     styleIcon={{ resizeMode: 'contain', width: 18, height: 18, padding: Constants.PADDING_LARGE }}
                                 />

@@ -6,7 +6,6 @@ import { ErrorCode } from 'config/errorCode';
 export default function (state = initialState, action) {
     switch (action.type) {
         case ActionEvent.COUNT_UNSEEN_CONVERSATION:
-            console.log("BOTTOM TAB REUDCER", action.payload);
             return {
                 ...state,
                 isLoading: false,

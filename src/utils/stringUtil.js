@@ -1,5 +1,4 @@
 import Utils from "./utils";
-import accent from 'remove-accents';
 
 export default class StringUtil {
 
@@ -265,9 +264,4 @@ export default class StringUtil {
     static specialCharacter = /^(\s)*[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*((\s)?((\'|\-|\.)?([A-Za-z])+))*(\s)*$/
     // static specialCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
     static regexName = /^[A - Z]'?[- a-zA-Z]( [a-zA-Z])*$/
-
-    static removeAccent = (str) => {
-        let newStr = accent.remove(str);
-        return newStr;
-    }
 }

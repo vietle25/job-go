@@ -6,8 +6,7 @@ import {
     SafeAreaView, NativeModules, Text
 } from "react-native";
 import {
-    Container, Form, Content, Input, Button, Right, Radio,
-    center, ListItem, Left, Header, Item, Picker, Body, Root
+    Container, Form, Content, Left, Header, Root
 } from 'native-base';
 import * as actions from 'actions/userActions'
 import * as commonActions from 'actions/commonActions'

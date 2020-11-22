@@ -28,7 +28,7 @@ class ItemCarouselRes extends Component {
         };
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             if (this.props.pauseVideoInItemCarouselRes !== nextProps.pauseVideoInItemCarouselRes &&
                 this.state.videoPaused !== nextProps.pauseVideoInItemCarouselRes) {
@@ -55,7 +55,7 @@ class ItemCarouselRes extends Component {
         }
     }
 
-    render () {
+    render() {
         const { item, index, indexRes, isEdit, onOpenImage, onOpenVideo, currentTimeVideo } = this.props;
 
         const { videoPaused, videoResizeMode, screen } = this.state;
@@ -71,20 +71,17 @@ class ItemCarouselRes extends Component {
             pathVideo = hasHttp || hasFile ? item.path : this.props.urlPath + "/" + item.path;
             thumbnailVideoPath = item.pathToThumbnailResource ? this.props.urlPathResize + "=" + item.pathToThumbnailResource + '&op=resize&w=' + DEFAULT_WIDTH_OF_VIDEO_THUMBNAIL : '';
         }
-        console.log("item resource call: ", hasFile);
-        console.log("item resource call: ", path);
-        console.log("item resource call: ", item.type);
         return (
             <TouchableOpacity
                 activeOpacity={Constants.ACTIVE_OPACITY}
-                style={{}}
+                style={{ width: Constants.MAX_WIDTH,}}
                 onPress={() => onOpenImage(index)}>
                 {
                     item.type == resourceType.IMAGE &&
                     (hasFile ?
                         <Image
                             style={{
-                                width: screen.width, height: screen.height / 3,
+                                width: Constants.MAX_WIDTH, height: screen.height / 3,
                             }}
                             source={{ uri: path }}
                         />
@@ -94,7 +91,7 @@ class ItemCarouselRes extends Component {
                             path={path}
                             resizeAtt={hasHttp ? null : { type: 'resize', height: DEFAULT_HEIGHT_OF_IMAGE }}
                             style={{
-                                width: screen.width, height: screen.height / 3,
+                                width: Constants.MAX_WIDTH, height: screen.height / 3,
                             }}
 
                         />
@@ -104,7 +101,7 @@ class ItemCarouselRes extends Component {
                     item.type == resourceType.VIDEO &&
                     <VideoPlayer
                         style={{
-                            width: screen.width,
+                            width:   Constants.MAX_WIDTH,
                             height: screen.height / 3,
                             backgroundColor: Colors.COLOR_BLACK
                         }}

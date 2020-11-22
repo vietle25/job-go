@@ -11,11 +11,11 @@ import { Constants } from "values/constants";
 import commonStyles from "styles/commonStyles";
 import { Fonts } from "values/fonts";
 import ItemListChat from "./itemListChat";
-import messing from '@react-native-firebase/messaging';
-import database from '@react-native-firebase/database';
+import firebase from "react-native-firebase";
 import Utils from "utils/utils";
 import StorageUtil from "utils/storageUtil";
-import TextInputSetState from "./textInputSetState";
+import ic_search_black from "images/ic_search_blue.png";
+import ic_cancel_white from "images/ic_cancel_blue.png";
 import DialogCustom from "components/dialogCustom";
 import StringUtil from "utils/stringUtil";
 import * as actions from "actions/userActions";
@@ -25,9 +25,9 @@ import { getActionSuccess, ActionEvent } from "actions/actionEvent";
 import { connect } from "react-redux";
 import conversationStatus from "enum/conversationStatus";
 import styles from "./styles";
-import { async } from "rxjs/internal/scheduler/async";
 import { localizes } from "locales/i18n";
 import HeaderGradient from "containers/common/headerGradient";
+// import ic_chat_add_green from 'images/ic_chat_add_green.png';
 import screenType from "enum/screenType";
 
 class ListChatView extends BaseView {
@@ -131,15 +131,17 @@ class ListChatView extends BaseView {
      */
     readDataListChat = async (usersKey) => {
         try {
-            database()
+            firebase
+                .database()
                 .ref(`chats_by_user/u${this.userId}/_conversation`)
                 .orderByChild("deleted__last_updated_at")
                 .startAt(`1_`)
                 .limitToLast(this.onceQuery)
                 .on("value", conversationSnap => {
+                    console.log("conversationSnap", conversationSnap);
                     const conversationValue = conversationSnap.val();
-                    console.log("conversationValue: ", conversationValue);
                     if (!Utils.isNull(conversationValue)) {
+                        console.log("conversationSnap 2", conversationValue);
                         if (this.callback != null) {
                             this.callback();
                         }
@@ -147,7 +149,8 @@ class ListChatView extends BaseView {
                         conversationSnap.forEach(element => {
                             let numberUnseen = 0;
                             numberUnseen = numberUnseen + element.val().number_unseen
-                            this.props.getUnseenConversation(numberUnseen)
+                            console.log("conversationSnap 3", element.val().number_unseen);
+                            this.props.getUnseenConversation(numberUnseen)  
                             this.conversationIds.push(parseInt(StringUtil.getNumberInString(element.key)));
                         });
                         global.numberUnseen = this.numberUnseen
@@ -165,6 +168,7 @@ class ListChatView extends BaseView {
                     }
                 });
         } catch (error) {
+            console.log("error firebase: ", error)
             this.saveException(error, "readDataListChat");
         }
     };
@@ -173,6 +177,7 @@ class ListChatView extends BaseView {
      * Get information member chat (name, avatarPath)
      */
     getInformationMemberChat () {
+        console.log("conver sation 4", this.conversationIds);
         if (this.conversationIds.length > 0) {
             this.props.getMemberOfConversation({
                 conversationIds: this.conversationIds
@@ -216,8 +221,8 @@ class ListChatView extends BaseView {
                     this.showNoData = true;
                     // this.getInformationConversation();
                 } if (this.props.action == getActionSuccess(ActionEvent.GET_MEMBER_OF_CONVERSATION)) {
+                    console.log("GET_MEMBER_OF_CONVERSATION: ", data);
                     this.conversations = data;
-                    console.log("get member of conversation id: ", data);
                     this.state.mainConversation = this.conversations;
                     // add information conversation
                     this.getInformationConversation();
@@ -366,11 +371,30 @@ class ListChatView extends BaseView {
                         isShowEmpty={this.state.mainConversation.length == 0}
                         textForEmpty={'Những người bạn liên hệ sẽ xuất hiện ở đây'}
                     />
+                    {/* {this.renderIconNewConversation()} */}
                     {this.state.isLoadingMore || this.state.refreshing ? null : this.showLoadingBar(this.props.isLoading)}
                     {this.renderDialogDelete()}
                 </Root>
             </Container>
         );
+    }
+
+    /**
+     * Render icon new conversation
+     */
+    renderIconNewConversation = () => {
+        return (
+            <View>
+                <TouchableOpacity
+                    activeOpacity={Constants.ACTIVE_OPACITY}
+                    style={styles.iconNewConversation}
+                    onPress={() =>
+                        this.props.navigation.navigate("NewConversation")
+                    }>
+                    {/* <Image source={ic_chat_add_green} /> */}
+                </TouchableOpacity>
+            </View>
+        )
     }
 
     /**
@@ -392,7 +416,8 @@ class ListChatView extends BaseView {
                     this.setState({ isAlertDelete: false });
                 }}
                 onPressBtnPositive={() => {
-                    database()
+                    firebase
+                        .database()
                         .ref()
                         .update({
                             [`members/c${itemSelected.conversationId}/u${this.userId}/deleted_conversation`]: true,
