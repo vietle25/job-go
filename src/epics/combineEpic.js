@@ -35,7 +35,8 @@ import {
     seenNotificationEpic,
     getConversationEpic,
     resetPasswordEpic,
-    loginViaSocialEpic
+    loginViaSocialEpic,
+    getMemberOfConversationEpic
 } from './userEpics';
 import {
     getCountryEpic,
@@ -154,5 +155,6 @@ export default combineEpics(
     pushNotificationEpic,
     saveJobEpic,
     getJobSaveEpic,
-    getCategoriesHomeViewEpic
+    getCategoriesHomeViewEpic,
+    getMemberOfConversationEpic
 )
