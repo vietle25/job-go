@@ -62,7 +62,7 @@ export default class ItemJob extends PureComponent {
                         <Text numberOfLines={2} style={styles.titleItem}>{item.title}</Text>
                         <Text numberOfLines={2} style={styles.salary}>{item.salary}</Text>
                     </View>
-                    <Pressable
+                    {/* <Pressable
                         android_ripple={{
                             color: Colors.COLOR_WHITE_DISABLE,
                             borderless: false,
@@ -87,7 +87,7 @@ export default class ItemJob extends PureComponent {
                             alignItem: 'center', justifyContent: 'center'
                         }}>
                         <Image source={saved ? ic_love_red : ic_love_white} />
-                    </Pressable>
+                    </Pressable> */}
                 </View>
                 <View style={styles.btnSave}>
                     {item.status != statusType.ACTIVE ? this.renderStateJob(item) : this.renderDayLeft(item)}

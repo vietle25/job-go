@@ -21,12 +21,12 @@ export default list = {
             screen: 'ApplyHistory',
             icon: ic_mange_job
         },
-        {
-            name: 'Việc đã lưu',
-            hasChild: true,
-            screen: 'JobSaved',
-            icon: ic_star
-        },
+        // {
+        //     name: 'Việc đã lưu',
+        //     hasChild: true,
+        //     screen: 'JobSaved',
+        //     icon: ic_star
+        // },
         {
             name: 'Đổi mật khẩu',
             hasChild: true,
@@ -48,12 +48,12 @@ export default list = {
             screen: 'ApplyHistory',
             icon: ic_mange_job
         },
-        {
-            name: 'Việc đã lưu',
-            hasChild: true,
-            screen: 'JobSaved',
-            icon: ic_star
-        },
+        // {
+        //     name: 'Việc đã lưu',
+        //     hasChild: true,
+        //     screen: 'JobSaved',
+        //     icon: ic_star
+        // },
         {
             name: 'Cập nhật mật khẩu',
             hasChild: true,
