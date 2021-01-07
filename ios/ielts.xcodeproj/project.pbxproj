@@ -1264,7 +1264,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boot.huihappy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jobgo;
 				PRODUCT_NAME = HuiHappy;
 				PROVISIONING_PROFILE = "2be2eb05-44a3-4132-953a-0b581ad8bdd4";
 				PROVISIONING_PROFILE_SPECIFIER = HUIHAPPY_DEV;
@@ -1377,7 +1377,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boot.huihappy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jobgo;
 				PRODUCT_NAME = HuiHappy;
 				PROVISIONING_PROFILE = "4443a4a3-5134-43af-b5a3-ef852d5cdf8f";
 				PROVISIONING_PROFILE_SPECIFIER = HUIHAPPY_RELEASE;
