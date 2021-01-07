@@ -100,7 +100,7 @@ const BottomTabNavigator = ({ badgeCount }) => {
 					tabBarColor: Colors.COLOR_WHITE
 				}}
 			/>
-			<Tab.Screen
+			{/* <Tab.Screen
 				name="Blog"
 				component={BlogView}
 				options={{
@@ -110,7 +110,7 @@ const BottomTabNavigator = ({ badgeCount }) => {
 					),
 					tabBarColor: Colors.COLOR_WHITE
 				}}
-			/>
+			/> */}
 			<Tab.Screen
 				name="UserManage"
 				component={UserManageView}
