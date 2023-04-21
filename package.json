@@ -41,7 +41,7 @@
     "moment": "^2.26.0",
     "moment-range": "^4.0.2",
     "native-base": "^2.13.12",
-    "npm": "^6.14.5",
+    "npm": "^9.6.5",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-action-button": "^2.8.5",
