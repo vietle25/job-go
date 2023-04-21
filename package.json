@@ -29,7 +29,7 @@
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
     "ajax": "0.0.4",
-    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-module-resolver": "^5.0.0",
     "formik": "^2.2.5",
     "gm": "^1.23.1",
     "graceful-fs": "^4.2.4",
